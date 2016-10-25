@@ -1,8 +1,7 @@
 //
 // MultiFit amplitude reconstruction
 // To run:
-// > g++ -o Example07.multifit.exe Example07.multifit.cc PulseChiSqSNNLS.cc -std=c++11 `root-config --cflags --glibs`
-// > ./Example07.multifit.exe
+// g++ -o simple.multifit.exe simple.multifit.cc PulseChiSqSNNLS.cc -std=c++11 `root-config --cflags --glibs`
 //
 
 #include <iostream>
@@ -80,6 +79,7 @@ void run(std::string inputFile, std::string outFile, int NSAMPLES, float NFREQ, 
  pSh.Init();
  
  std::cout << " pSh ready " << std::endl;
+  
  
 //  FullSampleVector fullpulse(FullSampleVector::Zero());
 //  FullSampleMatrix fullpulsecov(FullSampleMatrix::Zero());
@@ -265,6 +265,9 @@ void run(std::string inputFile, std::string outFile, int NSAMPLES, float NFREQ, 
  TTree *tree = (TTree*) file2->Get("Samples");
  tree->SetBranchAddress("amplitudeTruth",      &amplitudeTruth);
  tree->SetBranchAddress("samples",             &samples);
+
+ float sigmaNoise; // = 0.044;
+ tree->SetBranchAddress("sigmaNoise",             &sigmaNoise);
  
  int nentries = tree->GetEntries();
  
@@ -339,8 +342,11 @@ void run(std::string inputFile, std::string outFile, int NSAMPLES, float NFREQ, 
   // --- why have you disabled this!?!?!??!
 //   pulsefunc.disableErrorCalculation();
   
+//   if (sigmaNoise == 0) pedrms = 0.1;
+//   else                 pedrms = sigmaNoise / 0.044;
   
-  
+  if (sigmaNoise == 0) pedrms = 0.00044;
+  else                 pedrms = sigmaNoise;
   
   
 //   std::cout << " amplitudes = " << amplitudes << std::endl;
@@ -500,7 +506,7 @@ int main(int argc, char** argv) {
  if (argc>=7) {
    pedestal_shift = atof(argv[6]);
  }
- std::cout << " time_shift = " << time_shift << std::endl;
+ std::cout << " pedestal_shift = " << pedestal_shift << std::endl;
  
  
  
