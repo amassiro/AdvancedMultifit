@@ -154,13 +154,11 @@ bool PulseChiSqSNNLS::DoFit(const SampleVector &samples, const SampleMatrix &sam
     }
   }
   
-//   if (_debug) 
-  std::cout << " PulseChiSqSNNLS::DoFit::foundintime = " << foundintime << std::endl << std::endl;
+  if (_debug) std::cout << " PulseChiSqSNNLS::DoFit::foundintime = " << foundintime << std::endl << std::endl;
   
   if (!foundintime) return status;
   
-//   if (_debug)
-  std::cout << " PulseChiSqSNNLS::DoFit::ipulseintime = " << ipulseintime << std::endl << std::endl;  
+  if (_debug) std::cout << " PulseChiSqSNNLS::DoFit::ipulseintime = " << ipulseintime << std::endl << std::endl;  
   
   const unsigned int ipulseintimemin = ipulseintime;
   
@@ -184,7 +182,7 @@ bool PulseChiSqSNNLS::DoFit(const SampleVector &samples, const SampleMatrix &sam
   //two point interpolation for upper uncertainty when amplitude is away from boundary
   double xplus100 = x0 + approxerr;
   
-  std::cout << " >>>>       xplus100 = " << xplus100 << " = " << x0 << " + " << approxerr << std::endl << std::endl;
+  if (_debug) std::cout << " >>>>       xplus100 = " << xplus100 << " = " << x0 << " + " << approxerr << std::endl << std::endl;
   
   _ampvec->coeffRef(ipulseintime) = xplus100;
   if (_debug) std::cout << " samples = " << samples << std::endl << std::endl;

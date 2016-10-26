@@ -72,15 +72,16 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   
   
-  TCanvas* ccReco = new TCanvas ("ccReco","",800,600);
+  TCanvas* ccReco = new TCanvas ("ccReco","Reco Advanced",800,600);
   ccReco->SetRightMargin(0.3);
   TGraph *grReco = new TGraph();
   for(int i=0; i<samplesReco->size(); i++){
     std::cout << " i, activeBXs->at(i), samplesReco->at(i) = " << i << "::" << samplesReco->size() << " -> " << activeBXs->at(i) << " , " << samplesReco->at(i) << std::endl;
     grReco->SetPoint(i, activeBXs->at(i), samplesReco->at(i));
   }
-  grReco->SetMarkerSize(2);
+  grReco->SetMarkerSize(1);
   grReco->SetMarkerStyle(22);
+  grReco->SetLineColor(kBlue);
   grReco->SetMarkerColor(kBlue);
   grReco->Draw("ALP");
   grReco->GetXaxis()->SetTitle("BX");
@@ -113,7 +114,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   std::cout << " end " << std::endl;
   
   
-  TCanvas* ccPulseAndReco = new TCanvas ("ccPulseAndReco","",800,600);
+  TCanvas* ccPulseAndReco = new TCanvas ("ccPulseAndReco","Advanced",800,600);
   TGraph *grPulseRecoAll = new TGraph();
   TGraph *grPulseReco[samplesReco->size()];
   std::cout << " samplesReco->size() = " << samplesReco->size() << std::endl;
@@ -298,6 +299,32 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   leg->Draw();
   
   ccPedestals->SetGrid();
+  
+  
+  
+  
+  
+  
+  
+  TCanvas* ccRecoSimple = new TCanvas ("ccRecoSimple","Reco Simple",800,600);
+  ccRecoSimple->SetRightMargin(0.3);
+  TGraph *grRecoSimple = new TGraph();
+  for(int i=0; i<samplesReco->size(); i++){
+    grRecoSimple->SetPoint(i, activeBXs->at(i), (complete_samplesReco->at( complete_pedestal->size()/2 )).at(i));
+  }
+  grRecoSimple->SetMarkerSize(1);
+  grRecoSimple->SetMarkerStyle(24);
+  grRecoSimple->SetMarkerColor(kRed);
+  grRecoSimple->Draw("ALP");
+  grRecoSimple->GetXaxis()->SetTitle("BX");
+  grReco->Draw("LP");
+  
+  TLegend* leg2 = new TLegend(0.71,0.10,0.99,0.90);
+  leg2->AddEntry(grReco,      "Advanced Multifit","p");
+  leg2->AddEntry(grRecoSimple,"Multifit","p");
+  leg2->Draw();
+  
+  ccRecoSimple->SetGrid();
   
   
 }
