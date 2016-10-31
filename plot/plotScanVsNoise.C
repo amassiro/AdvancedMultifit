@@ -4,7 +4,7 @@
 //   tree->Add("output/advanced.multifit.mysample_11_-13.000_0.000_10_25.00_10.00_0.00_*.000_0.00_CRRC43.root");
   tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_0.00_*.000_0.00_CRRC43.root");
   
-  TH2F* histo = new TH2F ("histo", "", 100, 0, 20*0.044, 200, -2, 2);
+  TH2F* histo = new TH2F ("histo", "", 20, 0, 20*0.044, 200, -2, 2);
   
   tree->Draw("best_pedestal:sigmaNoise >> histo","","goff");
   histo->GetXaxis()->SetTitle("noise rms [GeV]");
@@ -41,7 +41,7 @@
   TCanvas* ccEnergy = new TCanvas("ccEnergy", "Advanced", 800, 600);
   
   
-  TH2F* histoEnergy = new TH2F ("histoEnergy", "", 100, 0, 20*0.044, 100, 8, 12);
+  TH2F* histoEnergy = new TH2F ("histoEnergy", "", 20, 0, 20*0.044, 100, 8, 12);
   
   tree->Draw("samplesReco[4]:sigmaNoise >> histoEnergy","","goff");
   histoEnergy->GetXaxis()->SetTitle("noise rms [GeV]");
@@ -77,7 +77,7 @@
   TCanvas* ccEnergySimple = new TCanvas("ccEnergySimple", "Simple", 800, 600);
   
   
-  TH2F* histoEnergySimple = new TH2F ("histoEnergySimple", "", 100, 0, 20*0.044, 100, 8, 12);
+  TH2F* histoEnergySimple = new TH2F ("histoEnergySimple", "", 20, 0, 20*0.044, 100, 8, 12);
   
   //---- 200 = iMAX_pedestals/2  --> 0 shift
   

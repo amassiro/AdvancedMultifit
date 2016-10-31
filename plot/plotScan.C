@@ -226,7 +226,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   histo_pedestal->SetFillColor(kBlue);
   histo_pedestal->SetFillStyle(3001);
   histo_pedestal->Draw();
-  histo_pedestal->GetXaxis()->SetTitle("time [ns]");
+  histo_pedestal->GetXaxis()->SetTitle("pedestal [GeV]");
   
   
   ccPedestals->SetGrid();
@@ -269,7 +269,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
     simple_grPulseReco[iBx]->SetMarkerSize(1);
     simple_grPulseReco[iBx]->SetMarkerStyle(21+iBx);
     TString nameHistoTitle = Form ("BX %d", activeBXs->at(iBx));
-    leg->AddEntry(simple_grPulseReco[iBx],nameHistoTitle.Data(),"p");
+//     leg->AddEntry(simple_grPulseReco[iBx],nameHistoTitle.Data(),"p");
   }
   
   for(int i=0; i<samples->size(); i++){
