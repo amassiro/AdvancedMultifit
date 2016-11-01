@@ -80,6 +80,10 @@ Plot scan
     r99t plot/plotScan.C\(\"output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_10.00_CRRC43_-1.00.root\",1\)
     
     
+    r99t plot/plotScan.C\(\"output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_1.000_19.00_CRRC43.root\",1\)
+    r99t plot/plotScan.C\(\"output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_1.000_0.00_CRRC43.root\",1\)
+    r99t plot/plotScan.C\(\"output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_1.000_30.00_CRRC43.root\",1\)
+    r99t plot/plotScan.C\(\"output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_0.00_CRRC43.root\",1\)
     
     
     

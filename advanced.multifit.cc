@@ -47,7 +47,8 @@ void run(std::string inputFile, std::string outFile, int NSAMPLES, float NFREQ) 
   
   std::cout << " run ..." << std::endl;
   
-  float time_shift = 13.; //---- default is 13
+//   float time_shift = 13. + 25; //---- default is 13
+  float time_shift = 13. ; //---- default is 13
   float pedestal_shift = 0.;
   
   
@@ -100,10 +101,10 @@ void run(std::string inputFile, std::string outFile, int NSAMPLES, float NFREQ) 
   
   for(int i=0; i<(NSAMPLES+7*int(25 /NFREQ)); i++) {
     
-    
     double x;
     
     x = double( IDSTART + NFREQ * i + 3*25. - 500 / 2. );  //----> 500 ns is fixed!  
+//     x = double( IDSTART + NFREQ * i + 4*25. - 500 / 2. );  //----> 500 ns is fixed!  
     
     pulseShapeTemplate.push_back( pSh.fShape(x));
     
@@ -112,7 +113,8 @@ void run(std::string inputFile, std::string outFile, int NSAMPLES, float NFREQ) 
   
   for (int i=1; i<(NSAMPLES + 2*int(25 /NFREQ)); i++) {
     
-    fullpulse(i + 7 * int(25 /NFREQ)) = pulseShapeTemplate[i];
+    fullpulse(i + 6 * int(25 /NFREQ)) = pulseShapeTemplate[i];
+//     fullpulse(i + 7 * int(25 /NFREQ)) = pulseShapeTemplate[i];
   }
   
   //---- correlation
@@ -137,7 +139,8 @@ void run(std::string inputFile, std::string outFile, int NSAMPLES, float NFREQ) 
   std::vector<int> activeBXs;
   for (unsigned int ibx=0; ibx<totalNumberOfBxActive; ++ibx) {
     
-    activeBXs.push_back( ibx * int(25 /NFREQ) - 4 * int(25 /NFREQ) ); //----> -5 BX are active w.r.t. 0 BX
+//     activeBXs.push_back( ibx * int(25 /NFREQ) - 4 * int(25 /NFREQ) ); //----> -5 BX are active w.r.t. 0 BX
+    activeBXs.push_back( ibx * int(25 /NFREQ) - 5 * int(25 /NFREQ) ); //----> -5 BX are active w.r.t. 0 BX
     
     //   std::cout << " activeBXs[" << ibx << "] = " << activeBXs[ibx] << std::endl;
   }

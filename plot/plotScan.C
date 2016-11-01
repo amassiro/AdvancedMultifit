@@ -27,6 +27,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   int    nWF;
   std::vector<double>* pulse_signal    = new std::vector<double>;
+  std::vector<double>* pileup_signal   = new std::vector<double>;
   std::vector<double>* samplesReco = new std::vector<double>;
   std::vector<double>* samples     = new std::vector<double>;
   std::vector<double>* samples_noise = new std::vector<double>;
@@ -49,6 +50,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   tree->SetBranchAddress("nWF",      &nWF);
   tree->SetBranchAddress("pulse_signal", &pulse_signal);
+  tree->SetBranchAddress("pileup_signal", &pileup_signal);
   tree->SetBranchAddress("samplesReco", &samplesReco);
   tree->SetBranchAddress("samples",   &samples);
   tree->SetBranchAddress("samples_noise",   &samples_noise);
@@ -69,6 +71,46 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   gr->SetLineColor(kMagenta);
   gr->SetLineWidth(2);
   gr->GetXaxis()->SetTitle("time [ns]");
+  
+  TGraph *grPUall = new TGraph();
+  for(int i=0; i<nWF; i++){
+    grPUall->SetPoint(i, i, pileup_signal->at(i));
+  }
+  grPUall->Draw("L");
+  grPUall->SetLineColor(kMagenta+3);
+  grPUall->SetLineWidth(2);
+  grPUall->SetLineStyle(3);
+  grPUall->GetXaxis()->SetTitle("time [ns]");
+  
+  
+  int IDSTART = 6*25;
+  int WFLENGTH = 500*4; // step 1/4 ns in waveform
+  int NSAMPLES = samplesReco->size();
+  float shift_for_pu_plot = IDSTART + NSAMPLES * NFREQ;
+  shift_for_pu_plot =  shift_for_pu_plot + 4*25*2 ;
+  
+  std::cout << " shift_for_pu_plot = " << shift_for_pu_plot << std::endl;
+  std::cout << " NSAMPLES = " << NSAMPLES << std::endl;
+  
+  
+  TGraph *grPU = new TGraph();
+  for(int i=0; i<nWF; i++){
+    grPU->SetPoint(i, (i-shift_for_pu_plot)/4, pileup_signal->at(i));
+  }
+  grPU->SetLineColor(kMagenta+3);
+  grPU->SetLineWidth(2);
+  grPU->SetLineStyle(3);
+  grPU->GetXaxis()->SetTitle("time [ns]");
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
@@ -111,11 +153,16 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   grPulse->Draw("ALP");
   grPulse->GetXaxis()->SetTitle("time [ns]");
   
+  grPU->Draw("L");
+  
   std::cout << " end " << std::endl;
   
   
-  TCanvas* ccPulseAndReco = new TCanvas ("ccPulseAndReco","Advanced",800,600);
+  TCanvas* ccPulseAndReco = new TCanvas ("ccPulseAndReco","Advanced",800,1200);
+  ccPulseAndReco->Divide(1,2);
+  ccPulseAndReco->cd(1);
   TGraph *grPulseRecoAll = new TGraph();
+  TGraph *grPulseReco_OOT_All = new TGraph();
   TGraph *grPulseReco[samplesReco->size()];
   std::cout << " samplesReco->size() = " << samplesReco->size() << std::endl;
   std::cout << " activeBXs->size() = " << activeBXs->size() << std::endl;
@@ -127,6 +174,11 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   std::vector<float> totalRecoSpectrum;
   for(int i=0; i<samples->size(); i++){
     totalRecoSpectrum.push_back(0);
+  }
+  
+  std::vector<float> totalRecoSpectrum_OOT;
+  for(int i=0; i<samples->size(); i++){
+    totalRecoSpectrum_OOT.push_back(0);
   }
   
   
@@ -142,6 +194,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
       int iReco = (i * NFREQ + activeBXs->at(iBx)*NFREQ + 2 * 25) / NFREQ;
       if ( iReco >= 0 && iReco <samples->size() ) {
         totalRecoSpectrum.at(iReco) += pulseShapeTemplate->at(i) * samplesReco->at(iBx);
+        if (iBx != 5) totalRecoSpectrum_OOT.at(iReco) += pulseShapeTemplate->at(i) * samplesReco->at(iBx);
       } 
       
     }
@@ -155,6 +208,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   for(int i=0; i<samples->size(); i++){
     totalRecoSpectrum.at(i) += best_pedestal;
+    totalRecoSpectrum_OOT.at(i) += best_pedestal;
   }
     
   grPulse->Draw("ALP");
@@ -165,6 +219,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   for(int i=0; i<samples->size(); i++){
     grPulseRecoAll->SetPoint(i, i * NFREQ, totalRecoSpectrum.at(i));
+    grPulseReco_OOT_All->SetPoint(i, i * NFREQ, totalRecoSpectrum_OOT.at(i));
   }
   
   grPulseRecoAll->SetMarkerColor(kMagenta);
@@ -173,11 +228,38 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   grPulseRecoAll->SetMarkerSize(2);
   grPulseRecoAll->SetMarkerStyle(24);
   grPulseRecoAll->Draw("PL");
+
+  grPulseReco_OOT_All->SetMarkerColor(kMagenta);
+  grPulseReco_OOT_All->SetLineColor(kMagenta);
+  grPulseReco_OOT_All->SetLineStyle(2);
+  grPulseReco_OOT_All->SetMarkerSize(2);
+  grPulseReco_OOT_All->SetMarkerStyle(27);
+  grPulseReco_OOT_All->Draw("PL");
+  
+  
+  
   grPulse->GetXaxis()->SetTitle("time [ns]");
   
   grPulse_noise->Draw("PL");
   
+  grPU->Draw("L");
+  
   leg->Draw();
+  
+  
+  
+  
+  ccPulseAndReco->cd(2);
+  
+  grPulseReco_OOT_All->Draw("APL");
+  grPU->Draw("L");
+  
+  gPad->SetGrid();
+  
+  
+  
+  
+  
   
   
   std::cout << " done " << std::endl;
@@ -238,14 +320,23 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   
   
-  TCanvas* ccSimple = new TCanvas ("ccSimple", "Simple", 800, 600);
+  TCanvas* ccSimple = new TCanvas ("ccSimple", "Simple", 800, 1200);
+  
+  ccSimple->Divide(1,2);
+  ccSimple->cd(1);
   
   TGraph *simple_grPulseRecoAll = new TGraph();
+  TGraph *simple_grPulseReco_OOT_All = new TGraph();
   TGraph *simple_grPulseReco[samplesReco->size()];
  
   std::vector<float> simple_totalRecoSpectrum;
   for(int i=0; i<samples->size(); i++){
     simple_totalRecoSpectrum.push_back(0);
+  }
+  
+  std::vector<float> simple_totalRecoSpectrum_OOT;
+  for(int i=0; i<samples->size(); i++){
+    simple_totalRecoSpectrum_OOT.push_back(0);
   }
   
   
@@ -261,6 +352,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
       int iReco = (i * NFREQ + activeBXs->at(iBx)*NFREQ + 2 * 25) / NFREQ;
       if ( iReco >= 0 && iReco <samples->size() ) {
         simple_totalRecoSpectrum.at(iReco) += pulseShapeTemplate->at(i) * (complete_samplesReco->at( complete_pedestal->size()/2 )).at(iBx);
+        if (iBx != 5) simple_totalRecoSpectrum_OOT.at(iReco) += pulseShapeTemplate->at(i) * (complete_samplesReco->at( complete_pedestal->size()/2 )).at(iBx);
       } 
       
     }
@@ -272,8 +364,11 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
 //     leg->AddEntry(simple_grPulseReco[iBx],nameHistoTitle.Data(),"p");
   }
   
+  
+  //---- no additional pedestals here
   for(int i=0; i<samples->size(); i++){
     simple_totalRecoSpectrum.at(i) += 0;
+    simple_totalRecoSpectrum_OOT.at(i) += 0;
   }
   
   grPulse->Draw("ALP");
@@ -284,6 +379,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   for(int i=0; i<samples->size(); i++){
     simple_grPulseRecoAll->SetPoint(i, i * NFREQ, simple_totalRecoSpectrum.at(i));
+    simple_grPulseReco_OOT_All->SetPoint(i, i * NFREQ, simple_totalRecoSpectrum_OOT.at(i));
   }
   
   simple_grPulseRecoAll->SetMarkerColor(kMagenta);
@@ -293,13 +389,30 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   simple_grPulseRecoAll->SetMarkerStyle(24);
   simple_grPulseRecoAll->Draw("PL");
   
+  
+  simple_grPulseReco_OOT_All->SetMarkerColor(kMagenta);
+  simple_grPulseReco_OOT_All->SetLineColor(kMagenta);
+  simple_grPulseReco_OOT_All->SetLineStyle(1);
+  simple_grPulseReco_OOT_All->SetMarkerSize(2);
+  simple_grPulseReco_OOT_All->SetMarkerStyle(27);
+  simple_grPulseReco_OOT_All->Draw("PL");
+  
+  
+  
   grPulse->GetXaxis()->SetTitle("time [ns]");
   grPulse_noise->Draw("PL");
   
+  grPU->Draw("L");
+  
   leg->Draw();
+    
   
-  ccPedestals->SetGrid();
+  ccSimple->cd(2);
   
+  simple_grPulseReco_OOT_All->Draw("APL");
+  grPU->Draw("L");
+  
+  gPad->SetGrid();
   
   
   
@@ -325,6 +438,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   leg2->Draw();
   
   ccRecoSimple->SetGrid();
+  
   
   
 }

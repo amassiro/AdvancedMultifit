@@ -1,10 +1,11 @@
 {
   
   TChain* tree = new TChain("RecoAndSim");
-//   tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43.root");
-//   tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_10.000_*.00_CRRC43.root");
-  tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_-1.00.root");
-//   tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_1.00.root");
+//   tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43.root");    //---- no noise
+  tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_1.000_*.00_CRRC43.root");    //---- noise x1
+//     tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_10.000_*.00_CRRC43.root");    //---- noise x10
+//   tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_-1.00.root");   //---- pedestal -1
+//   tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_1.00.root");    //---- pedestal +1
   
   TH2F* histo = new TH2F ("histo", "", 40, 0, 40, 200, -2, 2);
   
@@ -187,6 +188,83 @@
   
   
   gPad->SetGrid();
+  
+  
+  
+  
+  
+  
+  ccEnergyProfileSimple->cd(3);
+  
+  //---- sigma_energy/energy
+  
+  profileX_rms_energy = histoEnergy->ProfileX("_rms",0, -1, "s"); 
+  TGraphErrors* gr_profileX_rms_energy = new TGraphErrors();
+  
+  for (int i=0; i<profileX_rms_energy->GetNbinsX(); i++) {
+    float rms = profileX_rms_energy->GetBinError(i+1);
+    float x = profileX_rms_energy->GetXaxis()->GetBinCenter(i+1);
+    
+    gr_profileX_rms_energy->SetPoint(i, x, rms / profileX_energy->GetBinContent(i+1));
+    gr_profileX_rms_energy->SetPointError(i, profileX_energy->GetBinError(i+1)/rms*profileX_energy->GetBinError(i+1) / profileX_energy->GetBinContent(i+1));
+  }
+  
+  gr_profileX_rms_energy->SetMarkerSize(1);
+  gr_profileX_rms_energy->SetMarkerStyle(23);
+  gr_profileX_rms_energy->SetMarkerColor(kRed);
+  gr_profileX_rms_energy->SetLineColor(kRed);
+  gr_profileX_rms_energy->SetLineWidth(2);
+  
+  
+  profileX_rms_energySimple = histoEnergySimple->ProfileX("_rms2",0, -1, "s");  
+  TGraphErrors* gr_profileX_rms_energySimple = new TGraphErrors();
+  
+  for (int i=0; i<profileX_rms_energySimple->GetNbinsX(); i++) {
+    float rms = profileX_rms_energySimple->GetBinError(i+1);
+    float x = profileX_rms_energySimple->GetXaxis()->GetBinCenter(i+1);
+    
+    gr_profileX_rms_energySimple->SetPoint(i, x, rms/profileX_energySimple->GetBinContent(i+1));
+    gr_profileX_rms_energySimple->SetPointError(i, profileX_energySimple->GetBinError(i+1)/rms*profileX_energySimple->GetBinError(i+1)/profileX_energySimple->GetBinContent(i+1));
+
+  }
+  
+  gr_profileX_rms_energySimple->SetMarkerSize(1);
+  gr_profileX_rms_energySimple->SetMarkerStyle(21);
+  gr_profileX_rms_energySimple->SetMarkerColor(kCyan+1);
+  gr_profileX_rms_energySimple->SetLineColor(kCyan+1);
+  gr_profileX_rms_energySimple->SetLineWidth(2);
+  
+  
+  
+  gr_profileX_rms_energy->Draw("APL");
+  gr_profileX_rms_energy->GetXaxis()->SetTitle("pileup");
+  gr_profileX_rms_energy->GetYaxis()->SetTitle("#sigma_{Energy}/Energy");
+  gr_profileX_rms_energy->GetXaxis()->SetRangeUser(0,40);
+  
+  gr_profileX_rms_energySimple->Draw("PL");
+  
+  gPad->SetGrid();
+  
+  
+  
+  
+  
+//   histo->Draw("AXIS");
+//   
+//   profileX->SetMarkerSize(1);
+//   profileX->SetMarkerStyle(20);
+//   profileX->SetMarkerColor(kCyan);
+//   profileX->SetLineColor(kCyan);
+//   profileX->SetLineWidth(2);
+//   
+//   profileX->Draw("PL same");
+//   profileX->GetXaxis()->SetTitle("pileup");
+//   profileX->GetYaxis()->SetTitle("Pedestal [GeV]");
+//   
+//   gPad->SetGrid();
+  
+  
+  
   
   
 }
