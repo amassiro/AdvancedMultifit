@@ -44,7 +44,7 @@
 # ./CreateData.exe  -13        100    10     25     80         10        0         40         CRRC43     0    0.5       0
 #     
                          
-./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_0.00_CRRC43_0.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_0.00_CRRC43.root         10            25       
+# ./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_0.00_CRRC43_0.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_0.00_CRRC43.root         10            25       
 # ./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_1.00_CRRC43_0.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_1.00_CRRC43.root         10            25        
 # ./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_2.00_CRRC43_0.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_2.00_CRRC43.root         10            25        
 # ./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_3.00_CRRC43_0.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_3.00_CRRC43.root         10            25        
@@ -231,7 +231,7 @@
 # ./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_0.00_CRRC43_-1.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_0.00_CRRC43_-1.00.root         10            25       
 # ./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_1.00_CRRC43_-1.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_1.00_CRRC43_-1.00.root         10            25        
 # ./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_2.00_CRRC43_-1.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_2.00_CRRC43_-1.00.root         10            25        
-# ./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_3.00_CRRC43_-1.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_3.00_CRRC43_-1.00.root         10            25        
+./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_3.00_CRRC43_-1.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_3.00_CRRC43_-1.00.root         10            25        
 # ./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_4.00_CRRC43_-1.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_4.00_CRRC43_-1.00.root         10            25        
 # ./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_5.00_CRRC43_-1.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_5.00_CRRC43_-1.00.root         10            25        
 # ./advanced.multifit.exe   input/mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_6.00_CRRC43_-1.00.root       output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_6.00_CRRC43_-1.00.root         10            25        

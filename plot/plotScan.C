@@ -115,7 +115,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   
   TCanvas* ccReco = new TCanvas ("ccReco","Reco Advanced",800,600);
-  ccReco->SetRightMargin(0.3);
+//   ccReco->SetRightMargin(0.3);
   TGraph *grReco = new TGraph();
   for(int i=0; i<samplesReco->size(); i++){
     std::cout << " i, activeBXs->at(i), samplesReco->at(i) = " << i << "::" << samplesReco->size() << " -> " << activeBXs->at(i) << " , " << samplesReco->at(i) << std::endl;
@@ -208,7 +208,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   for(int i=0; i<samples->size(); i++){
     totalRecoSpectrum.at(i) += best_pedestal;
-    totalRecoSpectrum_OOT.at(i) += best_pedestal;
+    totalRecoSpectrum_OOT.at(i) += 0;
   }
     
   grPulse->Draw("ALP");
@@ -258,10 +258,6 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   
   
-  
-  
-  
-  
   std::cout << " done " << std::endl;
   
   std::cout << " complete_pedestal = " << complete_pedestal->size() << std::endl;
@@ -274,15 +270,15 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
     chi2_scan_graph->SetPoint(i, complete_pedestal->at(i), complete_chi2->at(i));
   }
   
-  TF1* fitParabola = new TF1("fitParabola", "[1] * (x-[0])*(x-[0]) + [2]", -0.5, 0.5);
-  
-  chi2_scan_graph->Fit("fitParabola", "R");
-  
-  std::cout << " best_pedestal = " << best_pedestal << std::endl;
-  std::cout << " best_pedestal[fit] = " << fitParabola->GetParameter(0) << std::endl;
-  
-  std::cout << " return_chi2 = " << return_chi2 << std::endl;
-  std::cout << " return_chi2[fit] = " << fitParabola->GetParameter(2) << std::endl;
+//   TF1* fitParabola = new TF1("fitParabola", "[1] * (x-[0])*(x-[0]) + [2]", -0.5, 0.5);
+//   
+//   chi2_scan_graph->Fit("fitParabola", "R");
+//   
+//   std::cout << " best_pedestal = " << best_pedestal << std::endl;
+//   std::cout << " best_pedestal[fit] = " << fitParabola->GetParameter(0) << std::endl;
+//   
+//   std::cout << " return_chi2 = " << return_chi2 << std::endl;
+//   std::cout << " return_chi2[fit] = " << fitParabola->GetParameter(2) << std::endl;
   
   chi2_scan_graph->SetMarkerColor(kMagenta);
   chi2_scan_graph->SetLineColor(kMagenta);
