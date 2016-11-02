@@ -153,15 +153,15 @@ int main(int argc, char** argv) {
   TString filenameOutput;
   if (correlation_flag == 0.0) {
     filenameOutput =
-    Form("input/mysample_%d_%.3f_%.3f_%d_%.2f_%.2f_%.2f_%.3f_%.2f_%s_NoiseUncorrelated.root", 
+    Form("inputExternal/mysample_%d_%.3f_%.3f_%d_%.2f_%.2f_%.2f_%.3f_%.2f_%s_NoiseUncorrelated.root", 
          nEventsTotal, real_pulse_shift, pileup_shift, NSAMPLES, NFREQ, signalAmplitude, nPU, sigmaNoiseScale, puFactor, wf_name);
   } else if (correlation_flag == 1.0) {
     filenameOutput =
-    Form("input/mysample_%d_%.3f_%.3f_%d_%.2f_%.2f_%.2f_%.3f_%.2f_%s_NoiseFullyCorrelated.root", 
+    Form("inputExternal/mysample_%d_%.3f_%.3f_%d_%.2f_%.2f_%.2f_%.3f_%.2f_%s_NoiseFullyCorrelated.root", 
          nEventsTotal, real_pulse_shift, pileup_shift, NSAMPLES, NFREQ, signalAmplitude, nPU, sigmaNoiseScale, puFactor, wf_name);
   } else {
     filenameOutput =
-    Form("input/mysample_%d_%.3f_%.3f_%d_%.2f_%.2f_%.2f_%.3f_%.2f_%s_%.2f.root", 
+    Form("inputExternal/mysample_%d_%.3f_%.3f_%d_%.2f_%.2f_%.2f_%.3f_%.2f_%s_%.2f.root", 
          nEventsTotal, real_pulse_shift, pileup_shift, NSAMPLES, NFREQ, signalAmplitude, nPU, sigmaNoiseScale, puFactor, wf_name, pedestal);
   }
   TFile *fileOut = new TFile(filenameOutput.Data(),"recreate");
