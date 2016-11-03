@@ -5,14 +5,15 @@
   //   tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_1.000_*.00_CRRC43.root");    //---- noise x1
   //     tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_10.000_*.00_CRRC43.root");    //---- noise x10
   //   tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_-1.00.root");   //---- pedestal -1
-  //   tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_1.00.root");    //---- pedestal +1
+//     tree->Add("output/advanced.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_1.00.root");    //---- pedestal +1
 
 
-  //   tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43.root");    //---- no noise
-  //   tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_80.00_1.000_*.00_CRRC43.root");    //---- noise x1
-  //     tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_80.00_10.000_*.00_CRRC43.root");    //---- noise x10
-  //   tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_-1.00.root");   //---- pedestal -1
-    tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_1.00.root");    //---- pedestal +1
+//     tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43.root");    //---- no noise
+//     tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_80.00_1.000_*.00_CRRC43.root");    //---- noise x1
+//       tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_80.00_10.000_*.00_CRRC43.root");    //---- noise x10
+//     tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_-1.00.root");   //---- pedestal -1
+      tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_80.00_0.000_*.00_CRRC43_-1.00.root");   //---- pedestal -1   pulse 5 GeV
+  //     tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_1.00.root");    //---- pedestal +1
   
   TH2F* histo = new TH2F ("histo", "", 40, 0, 40, 200, -2, 2);
   
@@ -51,9 +52,9 @@
   TCanvas* ccEnergy = new TCanvas("ccEnergy", "Advanced", 800, 600);
   
   
-  TH2F* histoEnergy = new TH2F ("histoEnergy", "", 40, 0, 40, 500, 3, 17);
+  TH2F* histoEnergy = new TH2F ("histoEnergy", "", 40, 0, 40, 200, -2, 2);
   
-  tree->Draw("samplesReco[4]:puFactor >> histoEnergy","","goff");
+  tree->Draw("(samplesReco[5]-amplitudeTruth):puFactor >> histoEnergy","","goff");
   histoEnergy->GetXaxis()->SetTitle("pileup");
   histoEnergy->GetYaxis()->SetTitle("Energy [GeV]");
   
@@ -79,7 +80,7 @@
   
   
   // Fit slices projected along Y fron bins in X [0,40] with more than -1 bins in Y filled
-  histoEnergy->FitSlicesY(0,0,40,-1);
+  histoEnergy->FitSlicesY(0,0,40,0, "QNG2");
   
   histoEnergy_1->SetMarkerSize(1);
   histoEnergy_1->SetMarkerStyle(32);
@@ -107,11 +108,11 @@
   TCanvas* ccEnergySimple = new TCanvas("ccEnergySimple", "Simple", 800, 600);
   
   
-  TH2F* histoEnergySimple = new TH2F ("histoEnergySimple", "", 40, 0, 40, 500, 3, 17);
+  TH2F* histoEnergySimple = new TH2F ("histoEnergySimple", "", 40, 0, 40, 200, -2, 2);
   
   //---- 200 = iMAX_pedestals/2  --> 0 shift
   
-  tree->Draw("complete_samplesReco[200][4]:puFactor >> histoEnergySimple","","goff");
+  tree->Draw("(complete_samplesReco[200][5]-amplitudeTruth):puFactor >> histoEnergySimple","","goff");
   histoEnergySimple->GetXaxis()->SetTitle("pileup");
   histoEnergySimple->GetYaxis()->SetTitle("Energy [GeV]");
   
@@ -130,7 +131,7 @@
   
   
   // Fit slices projected along Y fron bins in X [0,40] with more than -1 bins in Y filled
-  histoEnergySimple->FitSlicesY(0,0,40,-1);
+  histoEnergySimple->FitSlicesY(0,0,40,0, "QNG2");
   
   histoEnergySimple_1->SetMarkerSize(1);
   histoEnergySimple_1->SetMarkerStyle(25);

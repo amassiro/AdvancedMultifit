@@ -214,6 +214,12 @@ int main(int argc, char** argv) {
   treeOut->Branch("pulse_tau",      &pulse_tau,       "pulse_tau/F");
   // wf_name is already a pointer (char *) so we don't need to use &
   treeOut->Branch("wf_name",        wf_name,         "wf_name/C");
+  treeOut->Branch("input_pedestal",            &pedestal,             "input_pedestal/F");
+  
+  
+  
+  
+  
   
   for (int ievt = 0; ievt < nEventsTotal; ievt++) {
     if (!(ievt%100)) {

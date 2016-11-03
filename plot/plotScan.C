@@ -237,6 +237,10 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   grPulseReco_OOT_All->Draw("PL");
   
   
+  grPulseReco_OOT_All->GetXaxis()->SetTitle("time [ns]");
+  grPulseReco_OOT_All->GetYaxis()->SetTitle("Out of time [GeV]");
+  
+  
   
   grPulse->GetXaxis()->SetTitle("time [ns]");
   
@@ -250,7 +254,6 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   
   ccPulseAndReco->cd(2);
-  
   grPulseReco_OOT_All->Draw("APL");
   grPU->Draw("L");
   
@@ -392,6 +395,10 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   simple_grPulseReco_OOT_All->SetMarkerSize(2);
   simple_grPulseReco_OOT_All->SetMarkerStyle(27);
   simple_grPulseReco_OOT_All->Draw("PL");
+  
+  simple_grPulseReco_OOT_All->GetXaxis()->SetTitle("time [ns]");
+  simple_grPulseReco_OOT_All->GetYaxis()->SetTitle("Out of time [GeV]");
+  
   
   
   
