@@ -2,7 +2,7 @@
   
   TChain* tree = new TChain("RecoAndSim");
 //   tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_80.00_0.000_20.00_CRRC43_*.root");    //---- high pu
-  //   tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_80.00_1.000_10.00_CRRC43_*.root");  //---- less pu 
+//     tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_80.00_1.000_10.00_CRRC43_*.root");  //---- less pu 
   tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_80.00_1.000_2.00_CRRC43_*.root");     //---- even less pu
   
   
@@ -47,7 +47,7 @@
   
   tree->Draw("(samplesReco[5]-amplitudeTruth):input_pedestal >> histoEnergy","","goff");
   histoEnergy->GetXaxis()->SetTitle("pedestal [GeV]");
-  histoEnergy->GetYaxis()->SetTitle("Energy [GeV]");
+  histoEnergy->GetYaxis()->SetTitle("Reco Energy - True energy [GeV]");
   
   histoEnergy->Draw("colz");
   
@@ -67,7 +67,7 @@
   
   profileX_energy->Draw("PL same");
   profileX_energy->GetXaxis()->SetTitle("pedestal [GeV]");
-  profileX_energy->GetYaxis()->SetTitle("Energy [GeV]");
+  profileX_energy->GetYaxis()->SetTitle("Reco Energy - True energy [GeV]");
   
   
   // Fit slices projected along Y fron bins in X [0,40] with more than -1 bins in Y filled
@@ -105,7 +105,7 @@
   
   tree->Draw("(complete_samplesReco[200][5]-amplitudeTruth):input_pedestal >> histoEnergySimple","","goff");
   histoEnergySimple->GetXaxis()->SetTitle("pedestal [GeV]");
-  histoEnergySimple->GetYaxis()->SetTitle("Energy [GeV]");
+  histoEnergySimple->GetYaxis()->SetTitle("Reco Energy - True energy [GeV]");
   
   histoEnergySimple->Draw("colz");
   
@@ -154,7 +154,7 @@
   profileX_energy->Draw("PL same");
   
   profileX_energySimple->GetXaxis()->SetTitle("pedestal [GeV]");
-  profileX_energySimple->GetYaxis()->SetTitle("Energy [GeV]");
+  profileX_energySimple->GetYaxis()->SetTitle("Reco Energy - True energy [GeV]");
   
   gPad->SetGrid();
   
@@ -168,7 +168,7 @@
   histoEnergy_1->Draw("PL same");
   
   histoEnergySimple_1->GetXaxis()->SetTitle("pedestal [GeV]");
-  histoEnergySimple_1->GetYaxis()->SetTitle("Energy [GeV]");
+  histoEnergySimple_1->GetYaxis()->SetTitle("Reco Energy - True energy [GeV]");
   
   
   gPad->SetGrid();
@@ -237,7 +237,7 @@
   
   gr_profileX_rms_energy->Draw("APL");
   gr_profileX_rms_energy->GetXaxis()->SetTitle("pedestal [GeV]");
-  gr_profileX_rms_energy->GetYaxis()->SetTitle("#sigma_{Energy}/Energy");
+  gr_profileX_rms_energy->GetYaxis()->SetTitle("#sigma_{Energy}  [GeV]");
   gr_profileX_rms_energy->GetXaxis()->SetRangeUser(0,40);
   
   gr_profileX_rms_energySimple->Draw("PL");

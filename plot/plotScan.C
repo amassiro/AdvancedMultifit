@@ -102,7 +102,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   grPU->SetLineStyle(3);
   grPU->GetXaxis()->SetTitle("time [ns]");
   
-  
+  ccpulse_signal->SetGrid();
   
   
   
@@ -151,9 +151,12 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   grPulse->SetMarkerStyle(21);
   grPulse->SetMarkerColor(kRed);
   grPulse->Draw("ALP");
+  grPulse->GetYaxis()->SetRangeUser(0 > (best_pedestal-1) ? (best_pedestal-1)  : 0 , samplesReco->at(5)+2+best_pedestal);
   grPulse->GetXaxis()->SetTitle("time [ns]");
   
   grPU->Draw("L");
+  
+  ccPulse->SetGrid();
   
   std::cout << " end " << std::endl;
   
@@ -212,6 +215,8 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   }
     
   grPulse->Draw("ALP");
+  grPulse->GetYaxis()->SetRangeUser(0 > (best_pedestal-1) ? (best_pedestal-1)  : 0 , samplesReco->at(5)+2+best_pedestal);
+  
   //  for(int iBx=0; iBx<3; iBx++){
   for(int iBx=0; iBx<samplesReco->size(); iBx++){
     grPulseReco[iBx]->Draw("PL");
@@ -372,6 +377,8 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   }
   
   grPulse->Draw("ALP");
+  grPulse->GetYaxis()->SetRangeUser(0 > (best_pedestal-1) ? (best_pedestal-1)  : 0 , samplesReco->at(5)+2+best_pedestal);
+  
   //  for(int iBx=0; iBx<3; iBx++){
   for(int iBx=0; iBx<samplesReco->size(); iBx++){
     simple_grPulseReco[iBx]->Draw("PL");

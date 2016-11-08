@@ -15,7 +15,7 @@
       tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_80.00_0.000_*.00_CRRC43_-1.00.root");   //---- pedestal -1   pulse 5 GeV
   //     tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_80.00_0.000_*.00_CRRC43_1.00.root");    //---- pedestal +1
   
-  TH2F* histo = new TH2F ("histo", "", 40, 0, 40, 200, -2, 2);
+  TH2F* histo = new TH2F ("histo", "", 39, 1, 40, 1600, -8, 8);
   
   tree->Draw("best_pedestal:puFactor >> histo","","goff");
   histo->GetXaxis()->SetTitle("pileup");
@@ -52,11 +52,11 @@
   TCanvas* ccEnergy = new TCanvas("ccEnergy", "Advanced", 800, 600);
   
   
-  TH2F* histoEnergy = new TH2F ("histoEnergy", "", 40, 0, 40, 200, -2, 2);
+  TH2F* histoEnergy = new TH2F ("histoEnergy", "", 39, 1, 40, 1600, -8, 8);
   
   tree->Draw("(samplesReco[5]-amplitudeTruth):puFactor >> histoEnergy","","goff");
   histoEnergy->GetXaxis()->SetTitle("pileup");
-  histoEnergy->GetYaxis()->SetTitle("Energy [GeV]");
+  histoEnergy->GetYaxis()->SetTitle("Reco Energy - True energy [GeV]");
   
   histoEnergy->Draw("colz");
   
@@ -76,11 +76,11 @@
   
   profileX_energy->Draw("PL same");
   profileX_energy->GetXaxis()->SetTitle("pileup");
-  profileX_energy->GetYaxis()->SetTitle("Energy [GeV]");
+  profileX_energy->GetYaxis()->SetTitle("Reco Energy - True energy [GeV]");
   
   
   // Fit slices projected along Y fron bins in X [0,40] with more than -1 bins in Y filled
-  histoEnergy->FitSlicesY(0,0,40,0, "QNG2");
+  histoEnergy->FitSlicesY(0,0,40,0, "QN");
   
   histoEnergy_1->SetMarkerSize(1);
   histoEnergy_1->SetMarkerStyle(32);
@@ -108,13 +108,13 @@
   TCanvas* ccEnergySimple = new TCanvas("ccEnergySimple", "Simple", 800, 600);
   
   
-  TH2F* histoEnergySimple = new TH2F ("histoEnergySimple", "", 40, 0, 40, 200, -2, 2);
+  TH2F* histoEnergySimple = new TH2F ("histoEnergySimple", "", 39, 1, 40, 1600, -8, 8);
   
   //---- 200 = iMAX_pedestals/2  --> 0 shift
   
   tree->Draw("(complete_samplesReco[200][5]-amplitudeTruth):puFactor >> histoEnergySimple","","goff");
   histoEnergySimple->GetXaxis()->SetTitle("pileup");
-  histoEnergySimple->GetYaxis()->SetTitle("Energy [GeV]");
+  histoEnergySimple->GetYaxis()->SetTitle("Reco Energy - True energy [GeV]");
   
   histoEnergySimple->Draw("colz");
   
@@ -131,7 +131,7 @@
   
   
   // Fit slices projected along Y fron bins in X [0,40] with more than -1 bins in Y filled
-  histoEnergySimple->FitSlicesY(0,0,40,0, "QNG2");
+  histoEnergySimple->FitSlicesY(0,0,40,0, "QN");
   
   histoEnergySimple_1->SetMarkerSize(1);
   histoEnergySimple_1->SetMarkerStyle(25);
@@ -163,7 +163,7 @@
   profileX_energy->Draw("PL same");
   
   profileX_energySimple->GetXaxis()->SetTitle("pileup");
-  profileX_energySimple->GetYaxis()->SetTitle("Energy [GeV]");
+  profileX_energySimple->GetYaxis()->SetTitle("Reco Energy - True energy [GeV]");
    
   gPad->SetGrid();
   
@@ -177,7 +177,7 @@
   histoEnergy_1->Draw("PL same");
   
   histoEnergySimple_1->GetXaxis()->SetTitle("pileup");
-  histoEnergySimple_1->GetYaxis()->SetTitle("Energy [GeV]");
+  histoEnergySimple_1->GetYaxis()->SetTitle("Reco Energy - True energy [GeV]");
   
   
   gPad->SetGrid();
