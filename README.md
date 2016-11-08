@@ -105,6 +105,6 @@ Plot scan
     
     r99t plot/plotScan.C\(\"outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_80.00_1.000_10.00_CRRC43_-1.00.root\",1\)
     
-    
+    r99t plot/plotScan.C\(\"outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_80.00_1.000_2.00_CRRC43_1.00.root\",1\)
     
     

@@ -259,6 +259,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   gPad->SetGrid();
   
+  ccPulseAndReco->cd(1);
   
   
   std::cout << " done " << std::endl;
@@ -417,6 +418,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   gPad->SetGrid();
   
+  ccSimple->cd(1);
   
   
   
