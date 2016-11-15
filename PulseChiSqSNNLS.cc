@@ -247,6 +247,7 @@ bool PulseChiSqSNNLS::Minimize(const SampleMatrix &samplecor, double pederr, con
     if (_debug) std::cout << " iter = " << iter << " :: " << maxiter << std::endl << std::endl;
     if (iter>=maxiter) {
       //      edm::LogWarning("PulseChiSqSNNLS::Minimize") << "Max Iterations reached at iter " << iter <<  std::endl << std::endl;
+//       std::cout << " oh no ... I reached max iterations " << std::endl;
       break;
     }    
     
@@ -261,10 +262,13 @@ bool PulseChiSqSNNLS::Minimize(const SampleMatrix &samplecor, double pederr, con
     
     //std::cout << "*_covdecomp_support  " << std::endl << *_covdecomp_support << std::endl << std::endl;
     double chisqnow = ComputeChiSq();
-    if (_debug) std::cout << " chisqnow = " << chisqnow << std::endl << std::endl;
-    double deltachisq = chisqnow-_chisq;
+//     if (_debug) 
+//       std::cout << " chisqnow = " << chisqnow << std::endl;
+//       std::cout << " _chisq = " << _chisq << std::endl;
+      double deltachisq = chisqnow-_chisq;
     if (_debug) std::cout << " deltachisq = " << deltachisq << std::endl << std::endl;
     //std::cout << "*_covdecomp_support  " << std::endl << *_covdecomp_support << std::endl << std::endl;
+//     std::cout << " deltachisq = " << deltachisq << " ---> " << std::abs(deltachisq) << std::endl ;
     
     _chisq = chisqnow;
     if (std::abs(deltachisq)<1e-3) {

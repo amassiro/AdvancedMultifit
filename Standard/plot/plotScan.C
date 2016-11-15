@@ -267,7 +267,19 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   grPulse_noise->Draw("PL");
   
   grPU->Draw("L");
-   
+  
+  TGraph *grPedestal = new TGraph();
+  for(int i=0; i<samples->size()+2; i++){
+    grPedestal->SetPoint(i, i * NFREQ , best_pedestal);
+  }
+  grPedestal->SetMarkerColor(kBlue);
+  grPedestal->SetLineColor(kBlue);
+  grPedestal->SetLineWidth(4);
+  grPedestal->SetLineStyle(3);
+  grPedestal->SetMarkerSize(1);
+  grPedestal->Draw("PL");
+  
+
   leg->Draw();
   
   

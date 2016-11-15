@@ -43,7 +43,7 @@ TH1F* CreateHistoAmplitudes( const PulseVector& sam, int itime, int type) {
 
 
 
-void run(std::string inputFile, std::string outFile, int NSAMPLES, float NFREQ) {
+void run(std::string inputFile, std::string outFile, int NSAMPLES, float NFREQ, float NOISESCALE) {
   
   std::cout << " run ..." << std::endl;
   
@@ -256,8 +256,10 @@ void run(std::string inputFile, std::string outFile, int NSAMPLES, float NFREQ) 
 //       if (sigmaNoise == 0) pedrms = 0.01;
 //       else                 pedrms = sigmaNoise / 0.044;
         
-      if (sigmaNoise == 0) pedrms = 0.00044;
-      else                 pedrms = sigmaNoise;
+      if (sigmaNoise == 0) pedrms = 0.00044*NOISESCALE;
+      else                 pedrms = sigmaNoise*NOISESCALE;
+      
+//       std::cout << " pedrms = " << pedrms << std::endl;
       
       // --- why have you disabled this!?!?!??!
       //   pulsefunc.disableErrorCalculation();
@@ -400,6 +402,13 @@ int main(int argc, char** argv) {
     NFREQ = atof(argv[4]);
   }
   std::cout << " NFREQ = " << NFREQ << std::endl;
+
+
+  float NOISESCALE = 1;
+  if (argc>=6) {
+    NOISESCALE = atof(argv[5]);
+  }
+  std::cout << " NOISESCALE = " << NOISESCALE << std::endl;
   
   
   //---- time shift
@@ -418,7 +427,7 @@ int main(int argc, char** argv) {
   //  
   //  
   
-  run(inputFile, outFile, NSAMPLES, NFREQ);
+  run(inputFile, outFile, NSAMPLES, NFREQ, NOISESCALE);
   
   std::cout << " outFile = " << outFile << std::endl;
   

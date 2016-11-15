@@ -57,6 +57,26 @@ void init() {
   } 
   //  activeBX.resize(1);
   //  activeBX.coeffRef(0) = 0;
+  
+  
+  
+  //   http://cmslxr.fnal.gov/source/RecoLocalCalo/EcalRecProducers/plugins/EcalUncalibRecHitWorkerMultiFit.cc
+  for (int i=0; i<(NSAMPLES+2); i++) {
+    for (int j=0; j<(NSAMPLES+2); j++) {
+      fullpulsecov(i+7, j+7) = pSh.cholesky(i,j);
+    }
+  }
+  
+//   for(int i=0; i<EcalPulseShape::TEMPLATESAMPLES;i++)
+//     0289         for(int j=0; j<EcalPulseShape::TEMPLATESAMPLES;j++)
+//     0290           fullpulsecov(i+7,j+7) = aPulseCov->covval[i][j];
+//   0291      
+//   
+//   
+//   
+  
+  
+  
 }
 
 
@@ -196,6 +216,14 @@ void run(std::string inputFile, std::string outFile, float NOISESCALE) {
   
   fout->cd();
   
+  double pedval = 0.;
+  double pedrms = 1.0;
+  
+  if (sigmaNoise == 0) pedrms = 0.00044*NOISESCALE;
+  else                 pedrms = sigmaNoise*NOISESCALE;
+  
+  
+  
   for(int ievt=0; ievt<nentries; ++ievt){
     
     if (!(ievt%10)) {
@@ -231,9 +259,7 @@ void run(std::string inputFile, std::string outFile, float NOISESCALE) {
       
 //       std::cout << " amplitudes = " << amplitudes << std::endl;
       
-      double pedval = 0.;
-      double pedrms = 1.0;
-            
+      
       // --- why have you disabled this!?!?!??!
       // because otherwise it crashes!
       pulsefunc.disableErrorCalculation();
@@ -299,8 +325,8 @@ void run(std::string inputFile, std::string outFile, float NOISESCALE) {
       amplitudes[i] = samples->at(i) - pedestal_shift;
     }
     
-    double pedval = 0.;
-    double pedrms = 1.0;
+//     double pedval = 0.;
+//     double pedrms = 1.0;
     
     bool status = pulsefunc.DoFit( amplitudes, noisecor, pedrms, activeBX, fullpulse, fullpulsecov );
     double chisq = pulsefunc.ChiSq();

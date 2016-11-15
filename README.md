@@ -121,3 +121,29 @@ Plot scan
 
     
     
+    //---- test noise parameter
+    
+    ./CreateData.exe  -13        1    10     25     1         5        1         1         CRRC43     0    0.5       -1.0
+    ./advanced.multifit.exe   inputExternal/mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00.root      outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.0.001.root          10            25         0.001
+    ./advanced.multifit.exe   inputExternal/mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00.root      outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.0.1.root          10            25         0.1
+    ./advanced.multifit.exe   inputExternal/mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00.root      outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.1.root          10            25         1
+    ./advanced.multifit.exe   inputExternal/mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00.root      outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.2.root          10            25         2
+    ./advanced.multifit.exe   inputExternal/mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00.root      outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.5.root          10            25         5
+    ./advanced.multifit.exe   inputExternal/mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00.root      outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.10.root         10            25         10
+    ./advanced.multifit.exe   inputExternal/mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00.root      outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.100.root        10            25         100
+    ./advanced.multifit.exe   inputExternal/mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00.root      outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.1000.root       10            25         1000
+
+    
+    r99t plot/plotScan.C\(\"outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.0.001.root\",0\)
+    r99t plot/plotScan.C\(\"outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.0.1.root\",0\)
+    r99t plot/plotScan.C\(\"outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.1.root\",0\)
+    r99t plot/plotScan.C\(\"outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.2.root\",0\)
+    r99t plot/plotScan.C\(\"outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.5.root\",0\)
+    r99t plot/plotScan.C\(\"outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.10.root\",0\)
+    r99t plot/plotScan.C\(\"outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.100.root\",0\)
+    r99t plot/plotScan.C\(\"outputExternal/advanced.multifit.mysample_1_-13.000_0.000_10_25.00_5.00_1.00_1.000_1.00_CRRC43_-1.00_noise.1000.root\",0\)
+    
+    
+
+    
+    

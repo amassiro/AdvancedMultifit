@@ -244,10 +244,22 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   grPulseReco_OOT_All->GetXaxis()->SetTitle("time [ns]");
   grPulseReco_OOT_All->GetYaxis()->SetTitle("Out of time [GeV]");
-  
-  
+    
   
   grPulse->GetXaxis()->SetTitle("time [ns]");
+ 
+  
+  TGraph *grPedestal = new TGraph();
+  for(int i=0; i<samples->size(); i++){
+    grPedestal->SetPoint(i, i * NFREQ , best_pedestal);
+  }
+  grPedestal->SetMarkerColor(kBlue);
+  grPedestal->SetLineColor(kBlue);
+  grPedestal->SetLineWidth(4);
+  grPedestal->SetLineStyle(3);
+  grPedestal->SetMarkerSize(1);
+  grPedestal->Draw("PL");
+  
   
   grPulse_noise->Draw("PL");
   
@@ -256,6 +268,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   leg->Draw();
   
   
+   
   
   
   ccPulseAndReco->cd(2);
@@ -352,7 +365,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
     simple_grPulseReco[iBx] = new TGraph();
     for(int i=0; i<samples->size(); i++){
       //    std::cout << "  >> i = " << i << std::endl;
-      simple_grPulseReco[iBx]->SetPoint(i, i * NFREQ + activeBXs->at(iBx)*NFREQ + 2 * 25, pulseShapeTemplate->at(i) * (complete_samplesReco->at( complete_pedestal->size()/2 )).at(iBx));
+      simple_grPulseReco[iBx]->SetPoint(i, i * NFREQ + activeBXs->at(iBx)*NFREQ + 2 * 25, pulseShapeTemplate->at(i) * ( (complete_samplesReco->at( complete_pedestal->size()/2 )).at(iBx) ));
       
       int iReco = (i * NFREQ + activeBXs->at(iBx)*NFREQ + 2 * 25) / NFREQ;
       if ( iReco >= 0 && iReco <samples->size() ) {
