@@ -32,3 +32,10 @@ Modify rechit:
 
     git cms-addpkg DataFormats/EcalRecHit
 
+
+    
+Test
+
+    cmsRun runReco.py outputFile=test.root inputFiles=/store/user/peruzzi/DoubleEG/crab_pickEvents/161114_161345/0000/pickevents_338.root
+     
+     
