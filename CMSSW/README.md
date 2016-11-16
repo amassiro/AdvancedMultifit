@@ -1,6 +1,11 @@
 Instructions in CMSSW
 ====
 
+Where:
+
+    /afs/cern.ch/work/a/amassiro/ECAL/LocalReco/CMSSW_8_0_20/src
+    
+    
 Download
 
     cmsrel CMSSW_8_0_20
@@ -21,4 +26,9 @@ Download
 check in :
 
     https://github.com/amassiro/cmssw/blob/myDevelopmentGRfix/RecoLocalCalo/EcalRecAlgos/src/EcalUncalibRecHitMultiFitAlgo.cc
-    
+
+
+Modify rechit:
+
+    git cms-addpkg DataFormats/EcalRecHit
+

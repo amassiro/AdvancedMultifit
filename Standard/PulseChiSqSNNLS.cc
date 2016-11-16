@@ -150,6 +150,7 @@ bool PulseChiSqSNNLS::Minimize(const SampleMatrix &samplecor, double pederr, con
     
     if (iter>=maxiter) {
       //      edm::LogWarning("PulseChiSqSNNLS::Minimize") << "Max Iterations reached at iter " << iter <<  std::endl;
+//       std::cout << " maxiter =  " << iter << " :: " << maxiter << std::endl;
       break;
     }    
     
@@ -270,6 +271,8 @@ bool PulseChiSqSNNLS::NNLS() {
     while (true) {
       //printf("iter in, idxsP = %i\n",int(_idxsP.size()));
       
+//       std::cout << " >>  iter = " << iter << std::endl;
+      
       if (_nP==0) break;     
       
       PulseVector ampvecpermtest = _ampvec;
@@ -313,6 +316,11 @@ bool PulseChiSqSNNLS::NNLS() {
       
     }
     ++iter;
+    
+    
+    //---- AM:: add this new check to stop
+    if (iter > 1000) break;
+    
   }
   
 //   std::cout << "     -> _ampvec = " << _ampvec << std::endl;

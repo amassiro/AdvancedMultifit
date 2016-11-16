@@ -44,8 +44,6 @@ automatic
 
     sh doPedestalScan.sh
     
-    
-    
     r99t ../plot/plotScanVsPedestal.C
     
     r99t plot/plotScan.C\(\"outputExternalStandard/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_80.00_1.000_2.00_CRRC43_-1.00.root\",0\)
