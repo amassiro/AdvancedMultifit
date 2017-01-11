@@ -7,10 +7,10 @@
 //   tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_1.00_1.000_160.00_CRRC43_*.root");     //---- pileup big pulses but low occupancy
 //   tree->Add("outputExternal/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_1.00_1.000_320.00_CRRC43_*.root");     //---- pileup big pulses but low occupancy, and bigger pulses
  
+//   tree->Add("outputExternalStandard/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_1.00_1.000_160.00_CRRC43_*.root");     //---- pileup big pulses but low occupancy
   tree->Add("outputExternalStandard/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_1.00_1.000_320.00_CRRC43_*.root");     //---- pileup big pulses but low occupancy, and bigger pulses
   
-  
-  TH2F* histo = new TH2F ("histo", "", 21, -1.0, 1.0, 200, -2, 2);
+  TH2F* histo = new TH2F ("histo", "", 21, -1.05, 1.05, 400, -2, 2);
   
   tree->Draw("best_pedestal:input_pedestal >> histo","","goff");
   histo->GetXaxis()->SetTitle("Pedestal input [GeV]");
@@ -47,7 +47,7 @@
   TCanvas* ccEnergy = new TCanvas("ccEnergy", "Advanced", 800, 600);
   
   
-  TH2F* histoEnergy = new TH2F ("histoEnergy", "", 21, -1.0, 1.0, 200, -2, 2);
+  TH2F* histoEnergy = new TH2F ("histoEnergy", "", 21, -1.05, 1.05, 400, -2, 2);
   
   tree->Draw("(samplesReco[5]-amplitudeTruth):input_pedestal >> histoEnergy","","goff");
   histoEnergy->GetXaxis()->SetTitle("pedestal [GeV]");
@@ -103,7 +103,7 @@
   TCanvas* ccEnergySimple = new TCanvas("ccEnergySimple", "Simple", 800, 600);
   
   
-  TH2F* histoEnergySimple = new TH2F ("histoEnergySimple", "", 21, -1.0, 1.0, 200, -2, 2);
+  TH2F* histoEnergySimple = new TH2F ("histoEnergySimple", "", 21, -1.05, 1.05, 400, -2, 2);
   
   //---- 200 = iMAX_pedestals/2  --> 0 shift
   
@@ -201,15 +201,18 @@
   
   //---- sigma_energy/energy
   
-  profileX_rms_energy = histoEnergy->ProfileX("_rms",0, -1, "s"); 
+  profileX_rms_energy = histoEnergy->ProfileX("_rms",1, -1, "s"); 
   TGraphErrors* gr_profileX_rms_energy = new TGraphErrors();
   
   for (int i=0; i<profileX_rms_energy->GetNbinsX(); i++) {
     float rms = profileX_rms_energy->GetBinError(i+1);
     float x = profileX_rms_energy->GetXaxis()->GetBinCenter(i+1);
+
+    gr_profileX_rms_energy->SetPoint(i, x, rms );
+    gr_profileX_rms_energy->SetPointError(i, 0);
     
-    gr_profileX_rms_energy->SetPoint(i, x, rms / profileX_energy->GetBinContent(i+1));
-    gr_profileX_rms_energy->SetPointError(i, profileX_energy->GetBinError(i+1)/rms*profileX_energy->GetBinError(i+1) / profileX_energy->GetBinContent(i+1));
+//     gr_profileX_rms_energy->SetPoint(i, x, rms / profileX_energy->GetBinContent(i+1));
+//     gr_profileX_rms_energy->SetPointError(i, profileX_energy->GetBinError(i+1)/rms*profileX_energy->GetBinError(i+1) / profileX_energy->GetBinContent(i+1));
   }
   
   gr_profileX_rms_energy->SetMarkerSize(1);
@@ -219,15 +222,19 @@
   gr_profileX_rms_energy->SetLineWidth(2);
   
   
-  profileX_rms_energySimple = histoEnergySimple->ProfileX("_rms2",0, -1, "s");  
+  profileX_rms_energySimple = histoEnergySimple->ProfileX("_rms2",1, -1, "s");  
   TGraphErrors* gr_profileX_rms_energySimple = new TGraphErrors();
   
   for (int i=0; i<profileX_rms_energySimple->GetNbinsX(); i++) {
     float rms = profileX_rms_energySimple->GetBinError(i+1);
     float x = profileX_rms_energySimple->GetXaxis()->GetBinCenter(i+1);
     
-    gr_profileX_rms_energySimple->SetPoint(i, x, rms/profileX_energySimple->GetBinContent(i+1));
-    gr_profileX_rms_energySimple->SetPointError(i, profileX_energySimple->GetBinError(i+1)/rms*profileX_energySimple->GetBinError(i+1)/profileX_energySimple->GetBinContent(i+1));
+    gr_profileX_rms_energySimple->SetPoint(i, x, rms);
+    gr_profileX_rms_energySimple->SetPointError(i, 0);
+    
+//     std::cout << " i = " << i << " x = " << x << " y = " << rms << std::endl;
+//     gr_profileX_rms_energySimple->SetPoint(i, x, rms/profileX_energySimple->GetBinContent(i+1));
+//     gr_profileX_rms_energySimple->SetPointError(i, profileX_energySimple->GetBinError(i+1)/rms*profileX_energySimple->GetBinError(i+1)/profileX_energySimple->GetBinContent(i+1));
     
   }
   
@@ -242,7 +249,7 @@
   gr_profileX_rms_energy->Draw("APL");
   gr_profileX_rms_energy->GetXaxis()->SetTitle("pedestal [GeV]");
   gr_profileX_rms_energy->GetYaxis()->SetTitle("#sigma_{Energy}  [GeV]");
-  gr_profileX_rms_energy->GetXaxis()->SetRangeUser(0,40);
+  gr_profileX_rms_energy->GetXaxis()->SetRangeUser(-1,1);
   
   gr_profileX_rms_energySimple->Draw("PL");
   
