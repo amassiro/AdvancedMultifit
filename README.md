@@ -15,6 +15,7 @@ Create data
     
     
     ./CreateData.exe  -13        11    10     25     0     10    0         0      CRRC43     0    0.5       0
+    ./CreateData.exe  -13        1     10     25     0     10    0         0      CRRC43     0    0.5       0
     
     
 Fit
