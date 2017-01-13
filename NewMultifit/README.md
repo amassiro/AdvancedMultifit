@@ -30,6 +30,10 @@ Small changing in code (compare with "Standard" folder)
     ./simple.multifit.exe   ../inputExternal/mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00.root    \
                                output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00.root 
 
+    ./simple.multifit.exe   ../inputExternal/mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00.root    \
+                               output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00_dynamic_pedestal.root \
+                               1
+                               
     
     r99t ../plot/plotPulse.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_8.00_1.000_1.00_CRRC43_0.00.root\",0\)
 

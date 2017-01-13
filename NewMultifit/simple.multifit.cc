@@ -30,7 +30,9 @@ SampleGainVector gainsPedestal;
 SampleGainVector badSamples = SampleGainVector::Zero();
 
 
-void init() {
+//---- runPedestal = 0 (fix pedestal) or 1 (dynamic pedestal)
+
+void init(int runPedestal) {
   
   // intime sample is [2]
   double pulseShapeTemplate[NSAMPLES+2];
@@ -62,7 +64,8 @@ void init() {
   
   
   for (int iSample = 0; iSample<NSAMPLES; iSample++) { 
-    gainsPedestal[iSample] = 0;   //---- G12
+    if (runPedestal == 1) gainsPedestal[iSample] = 0;   //---- G12
+    else                  gainsPedestal[iSample] = -1;  //---- fixed pedestal
   }
   
   
@@ -178,6 +181,7 @@ void run(std::string inputFile, std::string outFile)
     
     
     double chisq = pulsefunc.ChiSq();
+    return_chi2 = chisq;
     
     unsigned int ipulseintime = 0;
     for (unsigned int ipulse=0; ipulse<pulsefunc.BXs().rows(); ++ipulse) {
@@ -189,6 +193,7 @@ void run(std::string inputFile, std::string outFile)
     double aMax = status ? pulsefunc.X()[ipulseintime] : 0.;
     //  double aErr = status ? pulsefunc.Errors()[ipulseintime] : 0.;
    
+    
     
     for (unsigned int ipulse=0; ipulse<pulsefunc.BXs().rows() ; ++ipulse) {
       if (status) { 
@@ -227,8 +232,13 @@ int main(int argc, char** argv) {
     outFile = argv[2];
   }
   
+  int runPedestal = 0;
+  if (argc>=4) {
+    runPedestal = atoi(argv[3]);
+  }
   
-  init();
+  
+  init(runPedestal);
   run(inputFile, outFile);
 
   
