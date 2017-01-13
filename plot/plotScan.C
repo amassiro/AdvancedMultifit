@@ -36,7 +36,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   
   float NFREQ;
   
-  float best_pedestal;
+  float best_pedestal = 0;
   float return_chi2;
   std::vector <double>* complete_chi2   = new std::vector<double>;
   std::vector <double>* complete_pedestal   = new std::vector<double>;
@@ -45,7 +45,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   tree->SetBranchAddress("complete_chi2",          &complete_chi2);
   tree->SetBranchAddress("complete_pedestal",      &complete_pedestal);
   tree->SetBranchAddress("complete_samplesReco",   &complete_samplesReco);
-  tree->SetBranchAddress("best_pedestal",   &best_pedestal);
+//   tree->SetBranchAddress("best_pedestal",   &best_pedestal);
   tree->SetBranchAddress("chi2",   &return_chi2);
   
   tree->SetBranchAddress("nWF",      &nWF);
@@ -151,7 +151,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   grPulse->SetMarkerStyle(21);
   grPulse->SetMarkerColor(kRed);
   grPulse->Draw("ALP");
-  grPulse->GetYaxis()->SetRangeUser(0 > (best_pedestal-1) ? (best_pedestal-1)  : 0 , samplesReco->at(5)+2+best_pedestal);
+  grPulse->GetYaxis()->SetRangeUser(0 > (best_pedestal-1) ? (best_pedestal-1)  : 0 , samplesReco->at(5)+10+best_pedestal);
   grPulse->GetXaxis()->SetTitle("time [ns]");
   
   grPU->Draw("L");
@@ -215,7 +215,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   }
     
   grPulse->Draw("ALP");
-  grPulse->GetYaxis()->SetRangeUser(0 > (best_pedestal-1) ? (best_pedestal-1)  : 0 , samplesReco->at(5)+2+best_pedestal);
+  grPulse->GetYaxis()->SetRangeUser(0 > (best_pedestal-1) ? (best_pedestal-1)  : 0 , samplesReco->at(5)+10+best_pedestal);
   
   //  for(int iBx=0; iBx<3; iBx++){
   for(int iBx=0; iBx<samplesReco->size(); iBx++){
@@ -390,7 +390,7 @@ void plotScan (std::string nameInputFile = "output.root", int nEvent = 10){
   }
   
   grPulse->Draw("ALP");
-  grPulse->GetYaxis()->SetRangeUser(0 > (best_pedestal-1) ? (best_pedestal-1)  : 0 , samplesReco->at(5)+2+best_pedestal);
+  grPulse->GetYaxis()->SetRangeUser(0 > (best_pedestal-1) ? (best_pedestal-1)  : 0 , samplesReco->at(5)+10+best_pedestal);
   
   //  for(int iBx=0; iBx<3; iBx++){
   for(int iBx=0; iBx<samplesReco->size(); iBx++){

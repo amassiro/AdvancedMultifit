@@ -29,6 +29,7 @@ void plotPulse (std::string nameInputFile = "output.root", int nEvent = 10, floa
  std::vector<double>* samples_noise = new std::vector<double>;
  std::vector<int>*    activeBXs   = new std::vector<int>;
  std::vector<double>* pulseShapeTemplate     = new std::vector<double>;
+ float best_pedestal = 0;
  
  float NFREQ;
  
@@ -40,6 +41,10 @@ void plotPulse (std::string nameInputFile = "output.root", int nEvent = 10, floa
  tree->SetBranchAddress("activeBXs", &activeBXs);
  tree->SetBranchAddress("nFreq",   &NFREQ);
  tree->SetBranchAddress("pulseShapeTemplate",   &pulseShapeTemplate);
+ 
+ if (tree->GetListOfBranches()->FindObject("best_pedestal")) {
+   tree->SetBranchAddress("best_pedestal", &best_pedestal);
+ }
  
  
  tree->GetEntry(nEvent);
@@ -92,6 +97,9 @@ void plotPulse (std::string nameInputFile = "output.root", int nEvent = 10, floa
  grPulse->SetMarkerSize(2);
  grPulse->SetMarkerStyle(21);
  grPulse->SetMarkerColor(kRed);
+ grPulse->SetLineStyle(3);
+ grPulse->SetLineColor(kRed);
+ grPulse->SetLineWidth(2);
  grPulse->Draw("ALP");
  grPulse->GetXaxis()->SetTitle("time [ns]");
  
@@ -140,6 +148,12 @@ void plotPulse (std::string nameInputFile = "output.root", int nEvent = 10, floa
  for(int i=0; i<samples->size(); i++){
    totalRecoSpectrum.at(i) += pedestal;
  }
+ 
+ 
+ for(int i=0; i<samples->size(); i++){
+   totalRecoSpectrum.at(i) += best_pedestal;
+ }
+ 
  
  
  grPulse->Draw("ALP");

@@ -300,6 +300,11 @@ int main(int argc, char** argv) {
     for (int i=0; i < NSAMPLES; ++i) {
       int pulse_index = TMath::Nint(4*(IDSTART + i * NFREQ - pulse_shift));
       samples.at(i) += pulse_signal.at(pulse_index);
+      
+      //---- slew rate
+//       if (i==4) samples.at(i) += 0.9*pulse_signal.at(pulse_index);
+//       else      samples.at(i) +=     pulse_signal.at(pulse_index);
+      
       int pileup_index = TMath::Nint(4*(IDSTART + i * NFREQ - pileup_shift));
       samples.at(i) += pileup_signal.at(pileup_index);
     }    

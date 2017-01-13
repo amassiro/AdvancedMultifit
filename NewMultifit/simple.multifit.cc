@@ -194,6 +194,7 @@ void run(std::string inputFile, std::string outFile)
       if (status) { 
 //         std::cout << "  (int(pulsefunc.BXs().coeff(ipulse))) = " <<  (int(pulsefunc.BXs().coeff(ipulse))) << " :: ipulse " << ipulse << " :: " << pulsefunc.BXs().rows() << " ----> " << pulsefunc.X()[ ipulse ] << std::endl;
         if ((int(pulsefunc.BXs().coeff(ipulse))) + 5 < NSAMPLES) samplesReco[ (int(pulsefunc.BXs().coeff(ipulse))) + 5] = pulsefunc.X()[ ipulse ];
+        else best_pedestal = pulsefunc.X()[ ipulse ] ;
       }
       else {
         samplesReco[ipulse] = -1;
@@ -201,6 +202,7 @@ void run(std::string inputFile, std::string outFile)
     }
 //     std::cout << std::endl;
     
+    std::cout << " best_pedestal = " << best_pedestal << std::endl;
     
     newtree->Fill();
         
