@@ -43,10 +43,16 @@ void init() {
   for (int i=0; i<(NSAMPLES+2); ++i) fullpulse(i+7) = pulseShapeTemplate[i];
   
   
+  double EBCorrNoiseMatrixG12[10] = {
+    1.00000, 0.71073, 0.55721, 0.46089, 0.40449,
+    0.35931, 0.33924, 0.32439, 0.31581, 0.30481 };
+    
   for (int i=0; i<NSAMPLES; ++i) {
     for (int j=0; j<NSAMPLES; ++j) {
       int vidx = std::abs(j-i);
-      noisecor(i,j) = pSh.corr(vidx);
+//       noisecor(i,j) = pSh.corr(vidx);
+      noisecor(i,j) = EBCorrNoiseMatrixG12[vidx];
+    
     }
   }
   
@@ -131,7 +137,7 @@ void run(std::string inputFile, std::string outFile, float NOISESCALE) {
   std::cout << " NFREQ    = " << NFREQ << std::endl;
   
   
-  
+    
   // intime sample is [2]
   //  double pulseShapeTemplate[NSAMPLES+2];
   std::vector<double> pulseShapeTemplate;
@@ -139,7 +145,8 @@ void run(std::string inputFile, std::string outFile, float NOISESCALE) {
   for(int i=0; i<(NSAMPLES+2); i++){
 //     double x = double( IDSTART + NFREQ * (i + 3) - WFLENGTH / 2);
 //     double x = double( IDSTART + NFREQ * (i + 3) - 500 / 2); //----> 500 ns is fixed!  
-    double x = double( IDSTART + NFREQ * (i + 3) + NFREQ - 500 / 2); //----> 500 ns is fixed!  
+//     double x = double( IDSTART + NFREQ * (i + 3) + NFREQ - 500 / 2); //----> 500 ns is fixed!  
+    double x = double( IDSTART + NFREQ * (i + 3) - 500 / 2); //----> 500 ns is fixed!  
     pulseShapeTemplate.push_back( pSh.fShape(x));
   }
      

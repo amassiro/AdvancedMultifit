@@ -46,6 +46,13 @@ void plotPulse (std::string nameInputFile = "output.root", int nEvent = 10, floa
    tree->SetBranchAddress("best_pedestal", &best_pedestal);
  }
  
+ float input_pedestal = 0;
+ if (tree->GetListOfBranches()->FindObject("input_pedestal")) {
+   tree->SetBranchAddress("input_pedestal", &input_pedestal);
+ }
+ 
+ 
+ 
  
  tree->GetEntry(nEvent);
  std::cout << " NFREQ = " << NFREQ << std::endl;
@@ -92,7 +99,7 @@ void plotPulse (std::string nameInputFile = "output.root", int nEvent = 10, floa
  
  TGraph *grPulse = new TGraph();
  for(int i=0; i<samples->size(); i++){
-  grPulse->SetPoint(i, i * NFREQ , samples->at(i));
+   grPulse->SetPoint(i, i * NFREQ , samples->at(i));
  }
  grPulse->SetMarkerSize(2);
  grPulse->SetMarkerStyle(21);
@@ -101,7 +108,52 @@ void plotPulse (std::string nameInputFile = "output.root", int nEvent = 10, floa
  grPulse->SetLineColor(kRed);
  grPulse->SetLineWidth(2);
  grPulse->Draw("ALP");
+ grPulse->GetYaxis()->SetRangeUser(0 > (input_pedestal-1) ? (input_pedestal-1)  : 0 , TMath::MaxElement(grPulse->GetN(),grPulse->GetY()) +2);
  grPulse->GetXaxis()->SetTitle("time [ns]");
+ 
+ std::cout << " grPulse->GetMaximum() = " << grPulse->GetMaximum() << std::endl;
+ std::cout << "  TMath::MaxElement(grPulse->GetN(),grPulse->GetY())  = " <<  TMath::MaxElement(grPulse->GetN(),grPulse->GetY())  << std::endl;
+ 
+ 
+ 
+ TGraph *grPulse_pedestal = new TGraph();
+ for(int i=0; i<samples->size(); i++){
+   grPulse_pedestal->SetPoint(i, i * NFREQ , input_pedestal);
+ }
+ grPulse_pedestal->SetMarkerSize(1.5);
+ grPulse_pedestal->SetMarkerStyle(21);
+ grPulse_pedestal->SetMarkerColor(kRed);
+ grPulse_pedestal->SetLineStyle(3);
+ grPulse_pedestal->SetLineColor(kRed);
+ grPulse_pedestal->SetLineWidth(1);
+ grPulse_pedestal->Draw("LP");
+ grPulse_pedestal->GetXaxis()->SetTitle("time [ns]");
+ 
+ 
+ 
+ TGraph *grPulseReco_pedestal = new TGraph();
+ for(int i=0; i<samples->size(); i++){
+   grPulseReco_pedestal->SetPoint(i, i * NFREQ , best_pedestal);
+ }
+ grPulseReco_pedestal->SetMarkerSize(1.5);
+ grPulseReco_pedestal->SetMarkerStyle(21);
+ grPulseReco_pedestal->SetMarkerColor(kRed);
+ grPulseReco_pedestal->SetLineStyle(3);
+ grPulseReco_pedestal->SetLineColor(kRed);
+ grPulseReco_pedestal->SetLineWidth(1);
+ grPulseReco_pedestal->Draw("LP");
+ grPulseReco_pedestal->GetXaxis()->SetTitle("time [ns]");
+ 
+ 
+ grPulseReco_pedestal->SetMarkerColor(kMagenta);
+ grPulseReco_pedestal->SetLineColor(kMagenta);
+ grPulseReco_pedestal->SetLineStyle(1);
+ grPulseReco_pedestal->SetMarkerSize(1);
+ grPulseReco_pedestal->SetMarkerStyle(24);
+ 
+ 
+ std::cout << " best_pedestal = " << best_pedestal << std::endl;
+ 
  
  std::cout << " end " << std::endl;
  
@@ -157,6 +209,8 @@ void plotPulse (std::string nameInputFile = "output.root", int nEvent = 10, floa
  
  
  grPulse->Draw("ALP");
+ grPulse_pedestal->Draw("LP");
+ 
 //  for(int iBx=0; iBx<3; iBx++){
  for(int iBx=0; iBx<samplesReco->size(); iBx++){
   grPulseReco[iBx]->Draw("PL");
@@ -172,6 +226,7 @@ void plotPulse (std::string nameInputFile = "output.root", int nEvent = 10, floa
  grPulseRecoAll->SetMarkerSize(2);
  grPulseRecoAll->SetMarkerStyle(24);
  grPulseRecoAll->Draw("PL");
+ grPulseReco_pedestal->Draw("PL");
  grPulse->GetXaxis()->SetTitle("time [ns]");
  
  grPulse_noise->Draw("PL");

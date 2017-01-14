@@ -32,7 +32,7 @@ SampleGainVector badSamples = SampleGainVector::Zero();
 
 //---- runPedestal = 0 (fix pedestal) or 1 (dynamic pedestal)
 
-void init(int runPedestal) {
+void init(int runPedestal, float addPedestalUncertainty, float reduceNoise) {
   
   // intime sample is [2]
   double pulseShapeTemplate[NSAMPLES+2];
@@ -47,7 +47,9 @@ void init(int runPedestal) {
   //  for(int i=0; i<(NSAMPLES+2); i++) pulseShapeTemplate[i] /= pulseShapeTemplate[2];
   for (int i=0; i<(NSAMPLES+2); ++i) fullpulse(i+7) = pulseShapeTemplate[i];
   
-  double pedrms = 1.0;
+  
+  //---- reduction of the EXPECTED noise
+  double pedrms = 1.0 * reduceNoise;
   
   double EBCorrNoiseMatrixG12[10] = {
     1.00000, 0.71073, 0.55721, 0.46089, 0.40449,
@@ -61,6 +63,13 @@ void init(int runPedestal) {
       noisecov(i,j) = noisecor(i,j) * pedrms;
     }
   }
+  
+  //---- sum the squared of uncertainty in all elements of the matrix: fully correlated noise!
+  if (addPedestalUncertainty > 0) {    
+    noisecov += (addPedestalUncertainty*addPedestalUncertainty*SampleMatrix::Ones());
+  }
+  
+  
   
   
   for (int iSample = 0; iSample<NSAMPLES; iSample++) { 
@@ -207,7 +216,7 @@ void run(std::string inputFile, std::string outFile)
     }
 //     std::cout << std::endl;
     
-    std::cout << " best_pedestal = " << best_pedestal << std::endl;
+//     std::cout << " best_pedestal = " << best_pedestal << std::endl;
     
     newtree->Fill();
         
@@ -235,10 +244,23 @@ int main(int argc, char** argv) {
   int runPedestal = 0;
   if (argc>=4) {
     runPedestal = atoi(argv[3]);
+    std::cout << " runPedestal = " << runPedestal << std::endl;
+  }
+  
+  float addPedestalUncertainty = 0;
+  if (argc>=5) {
+    addPedestalUncertainty = atof(argv[4]);
+    std::cout << " addPedestalUncertainty = " << addPedestalUncertainty << std::endl;
+  }
+  
+  float reduceNoise = 1.;
+  if (argc>=6) {
+    reduceNoise = atof(argv[5]);
+    std::cout << " reduceNoise = " << reduceNoise << std::endl;
   }
   
   
-  init(runPedestal);
+  init(runPedestal, addPedestalUncertainty, reduceNoise);
   run(inputFile, outFile);
 
   

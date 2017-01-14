@@ -50,4 +50,22 @@ automatic
     r99t plot/plotScan.C\(\"outputExternalStandard/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_5.00_1.00_1.000_160.00_CRRC43_-1.00.root\",0\)
     
     
+
     
+    
+Test for comparison:
+
+    ./advanced.multifit.exe   ../inputExternal/mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00.root    \
+                               outputExternalStandard/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00.root 
+
+    r99t ../plot/plotPulse.C\(\"outputExternalStandard/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00.root\",0\)
+    r99t ../plot/plot.C\(\"outputExternalStandard/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00.root\"\)
+
+
+    ./advanced.multifit.exe   ../inputExternal/mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_1.00_CRRC43_1.00.root  \
+                               outputExternalStandard/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_1.00_CRRC43_1.00.root
+
+    ./advanced.multifit.exe   ../inputExternal/mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00.root  \
+                               outputExternalStandard/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00.root
+                               
+
