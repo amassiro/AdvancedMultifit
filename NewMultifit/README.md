@@ -143,6 +143,23 @@ Small changing in code (compare with "Standard" folder)
                                0    \
                                1000
     
+    
+    
+    ./simple.multifit.exe   ../inputExternal/mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00.root    \
+                               output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_CorrelatedNoise_20.NoiseReduction_0.1.root   \
+                               0    \
+                               20   \
+                               0.1
+    
+    ./simple.multifit.exe   ../inputExternal/mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00.root    \
+                               output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_CorrelatedNoise_20.NoiseReduction_0.01.root   \
+                               0    \
+                               20   \
+                               0.01
+    
+    
+    
+    
  
     r99t ../plot/plot.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00.root\"\)
     r99t ../plot/plot.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_dynamic_pedestal.root\"\)
@@ -153,12 +170,15 @@ Small changing in code (compare with "Standard" folder)
     r99t ../plot/plot.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_CorrelatedNoise_20.root\"\)
     r99t ../plot/plot.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_CorrelatedNoise_100.root\"\)
     r99t ../plot/plot.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_CorrelatedNoise_1000.root\"\)
- 
- 
+    r99t ../plot/plot.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_CorrelatedNoise_20.NoiseReduction_0.1.root\"\)
+
+    
     r99t ../plot/plotPulse.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_CorrelatedNoise_100.root\",0\)
     r99t ../plot/plotPulse.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_CorrelatedNoise_1000.root\",0\)
     r99t ../plot/plotPulse.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_dynamic_pedestal.root\",0\)
     r99t ../plot/plotPulse.C\(\"../Standard/outputExternalStandard/advanced.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00.root\",0\)
+    r99t ../plot/plotPulse.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_CorrelatedNoise_20.NoiseReduction_0.1.root\",0\)
+    r99t ../plot/plotPulse.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_1.00_CorrelatedNoise_20.NoiseReduction_0.01.root\",0\)
     
     
     
