@@ -89,7 +89,7 @@ void init(int runPedestal, float addPedestalUncertainty, float reduceNoise) {
 
 
 
-void run(std::string inputFile, std::string outFile)
+void run(std::string inputFile, std::string outFile, int fixslewrate)
 {
   
   TFile *file2 = new TFile(inputFile.c_str());
@@ -171,6 +171,32 @@ void run(std::string inputFile, std::string outFile)
   
   
   
+
+  
+  
+  // special handling for gain switch, where sample before maximum is potentially affected by slew rate limitation
+  // optionally apply a stricter criteria, assuming slew rate limit is only reached in case where maximum sample has gain switched but previous sample has not
+  // option 1: use simple max-sample algorithm
+  
+  // ---> not implemented here
+  
+  // option2: A floating negative single-sample offset is added to the fit
+  // such that the affected sample is treated only as a lower limit for the true amplitude
+  
+  int iSampleMax = 5;
+  
+  if (fixslewrate) {
+    badSamples[iSampleMax-1] = 1;
+  }
+  
+  
+  
+      
+      
+      
+      
+      
+      
   
   
   
@@ -208,7 +234,7 @@ void run(std::string inputFile, std::string outFile)
       if (status) { 
 //         std::cout << "  (int(pulsefunc.BXs().coeff(ipulse))) = " <<  (int(pulsefunc.BXs().coeff(ipulse))) << " :: ipulse " << ipulse << " :: " << pulsefunc.BXs().rows() << " ----> " << pulsefunc.X()[ ipulse ] << std::endl;
         if ((int(pulsefunc.BXs().coeff(ipulse))) + 5 < NSAMPLES) samplesReco[ (int(pulsefunc.BXs().coeff(ipulse))) + 5] = pulsefunc.X()[ ipulse ];
-        else                                                     best_pedestal = pulsefunc.X()[ ipulse ] ;
+        else best_pedestal = pulsefunc.X()[ ipulse ] ;
       }
       else {
         samplesReco[ipulse] = -1;
@@ -259,9 +285,15 @@ int main(int argc, char** argv) {
     std::cout << " reduceNoise = " << reduceNoise << std::endl;
   }
   
+  int fixslewrate = 0;
+  if (argc>=7) {
+    fixslewrate = atoi(argv[6]);
+    std::cout << " fixslewrate = " << fixslewrate << std::endl;
+  }
+  
   
   init(runPedestal, addPedestalUncertainty, reduceNoise);
-  run(inputFile, outFile);
+  run(inputFile, outFile, fixslewrate);
 
   
 }
