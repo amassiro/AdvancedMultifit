@@ -11,14 +11,23 @@ Small changing in code (compare with "Standard" folder)
     g++ -o simple.multifit.exe simple.multifit.cc PulseChiSqSNNLS.cc -std=c++11 `root-config --cflags --glibs`
 
     
-    ./CreateData.exe    temporal_shift      number_of_events       NSAMPLES       NFREQ     nPU    signalAmplitude    sigmaNoise     puFactor  wf_name_string    pu_shift     noise-correlation    pedestal
-    cd ..
-    ./CreateData.exe  -13        200    10     25     8         10        1         1         CRRC43     0    0.5        0.0
-    ./CreateData.exe  -13        200    10     25    20         10        1       200         CRRC43     0    0.5        0.0
+    g++ -o CreateData.exe  CreateData.cc -std=c++11 `root-config --cflags --glibs`
+
     
-    ./CreateData.exe  -13        200    10     25    20         10        1       200         CRRC43     0    0.5        1.0
-    ./CreateData.exe  -13        200    10     25    20         10        1         1         CRRC43     0    0.5        1.0
+    ./CreateData.exe    temporal_shift      number_of_events       NSAMPLES       NFREQ     nPU    signalAmplitude    sigmaNoise     puFactor  wf_name_string    pu_shift     noise-correlation    pedestal   slew-rate-distortion
+    cd .. 
+    ./CreateData.exe  -13        200    10     25     8         10        1         1         CRRC43     0    0.5        0.0      0.9
+    ./CreateData.exe  -13        200    10     25    20         10        1       200         CRRC43     0    0.5        0.0      0.9
     
+    ./CreateData.exe  -13        200    10     25    20         10        1       200         CRRC43     0    0.5        100.0      0.9
+    ./CreateData.exe  -13        200    10     25    20         10        1         1         CRRC43     0    0.5        100.0      0.9
+
+    ./CreateData.exe  -13        200    10     25     8         10        1         1         CRRC43     0    0.5        0.0      
+    ./CreateData.exe  -13        200    10     25    20         10        1       200         CRRC43     0    0.5        0.0      
+    
+    ./CreateData.exe  -13        200    10     25    20         10        1       200         CRRC43     0    0.5        100.0    
+    ./CreateData.exe  -13        200    10     25    20         10        1         1         CRRC43     0    0.5        100.0    
+
     cd -
     
     

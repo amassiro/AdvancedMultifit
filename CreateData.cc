@@ -109,6 +109,15 @@ int main(int argc, char** argv) {
     WFLENGTH = (IDSTART + NSAMPLES * NFREQ)*4 + 100;
   }
   
+  
+  //---- distortion of the 4th sample to simulate slew rate effect in pre-amp
+  //----    1. --> 100%, meaning no distortion
+  //----    0.90 --> 90%, meaning the point is multiplied by 0.90
+  float distortion_sample_4 = 1.;
+  if (argc>=14) distortion_sample_4 = atof(argv[13]);
+  
+  
+  
   std::cout << " NSAMPLES = " << NSAMPLES << std::endl;
   std::cout << " NFREQ = " << NFREQ << std::endl;
   std::cout << " nPU = " << nPU << std::endl;
@@ -121,6 +130,7 @@ int main(int argc, char** argv) {
   std::cout << " puFactor = "     << puFactor << std::endl;
   std::cout << " sigmaNoise = "   << sigmaNoise << std::endl;
   std::cout << " sigmaNoiseScale = "   << sigmaNoiseScale << std::endl;
+  std::cout << " distortion_sample_4 = "   << distortion_sample_4 << std::endl;
   
   
   
@@ -161,8 +171,8 @@ int main(int argc, char** argv) {
          nEventsTotal, real_pulse_shift, pileup_shift, NSAMPLES, NFREQ, signalAmplitude, nPU, sigmaNoiseScale, puFactor, wf_name);
   } else {
     filenameOutput =
-    Form("inputExternal/mysample_%d_%.3f_%.3f_%d_%.2f_%.2f_%.2f_%.3f_%.2f_%s_%.2f.root", 
-         nEventsTotal, real_pulse_shift, pileup_shift, NSAMPLES, NFREQ, signalAmplitude, nPU, sigmaNoiseScale, puFactor, wf_name, pedestal);
+    Form("inputExternal/mysample_%d_%.3f_%.3f_%d_%.2f_%.2f_%.2f_%.3f_%.2f_%s_%.2f_slew_%.2f.root", 
+         nEventsTotal, real_pulse_shift, pileup_shift, NSAMPLES, NFREQ, signalAmplitude, nPU, sigmaNoiseScale, puFactor, wf_name, pedestal, distortion_sample_4);
   }
   TFile *fileOut = new TFile(filenameOutput.Data(),"recreate");
   
@@ -215,6 +225,8 @@ int main(int argc, char** argv) {
   // wf_name is already a pointer (char *) so we don't need to use &
   treeOut->Branch("wf_name",        wf_name,         "wf_name/C");
   treeOut->Branch("input_pedestal",            &pedestal,             "input_pedestal/F");
+  treeOut->Branch("distortion_sample_4",            &distortion_sample_4,             "distortion_sample_4/F");
+  
   
   
   
@@ -301,12 +313,14 @@ int main(int argc, char** argv) {
       int pulse_index = TMath::Nint(4*(IDSTART + i * NFREQ - pulse_shift));
       samples.at(i) += pulse_signal.at(pulse_index);
       
-      //---- slew rate
-//       if (i==4) samples.at(i) += 0.9*pulse_signal.at(pulse_index);
-//       else      samples.at(i) +=     pulse_signal.at(pulse_index);
-      
       int pileup_index = TMath::Nint(4*(IDSTART + i * NFREQ - pileup_shift));
-      samples.at(i) += pileup_signal.at(pileup_index);
+
+      //---- slew rate
+      if (distortion_sample_4 != 1) {
+        if (i==4) samples.at(i) += distortion_sample_4 * pulse_signal.at(pulse_index);
+        else      samples.at(i) +=                       pulse_signal.at(pulse_index);        
+      }
+      
     }    
     
     // Add pedestal
