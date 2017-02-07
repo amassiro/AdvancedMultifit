@@ -108,6 +108,7 @@ bool PulseChiSqSNNLS::DoFit(const SampleVector &samples, const SampleMatrix &sam
   
   //construct negative step functions for saturated or potentially slew-rate-limited samples
   for (int isample=0; isample<SampleVector::RowsAtCompileTime; ++isample) {
+//     std::cout << " badSamples.coeff(" << isample << ") = " << badSamples.coeff(isample) << std::endl;
     if (badSamples.coeff(isample)>0) {
       SampleVector step = SampleVector::Zero();
       //step correction has negative sign for saturated or slew-limited samples which have been forced to zero
@@ -121,18 +122,31 @@ bool PulseChiSqSNNLS::DoFit(const SampleVector &samples, const SampleMatrix &sam
     }
   }
   
+  
+//   std::cout << " I am here" << std::endl;
+  
+  
   _npulsetot = npulse + nPedestals;
+
+//   std::cout << " _npulsetot = " << _npulsetot << " = " << npulse <<  " + " << nPedestals << std::endl;
+
   
   _ampvec = PulseVector::Zero(_npulsetot);
   _errvec = PulseVector::Zero(_npulsetot);  
   _nP = 0;
   _chisq = 0.;
+
+//   std::cout << " I am here (2)" << std::endl;
   
   if (_bxs.rows()==1 && std::abs(_bxs.coeff(0))<100) {
     _ampvec.coeffRef(0) = _sampvec.coeff(_bxs.coeff(0) + 5);
   }
   
+//   std::cout << " I am here (3)" << std::endl;
+    
   aTamat.resize(_npulsetot,_npulsetot);
+  
+//   std::cout << " I am here (4)" << std::endl;
   
   //initialize pulse template matrix
   for (int ipulse=0; ipulse<npulse; ++ipulse) {
@@ -140,6 +154,8 @@ bool PulseChiSqSNNLS::DoFit(const SampleVector &samples, const SampleMatrix &sam
     int offset = 7-3-bx;
     _pulsemat.col(ipulse) = fullpulse.segment<SampleVector::RowsAtCompileTime>(offset);
   }
+  
+//   std::cout << " I am here (5)" << std::endl;
   
   //unconstrain pedestals already for first iteration since they should always be non-zero
   if (nPedestals>0) {
@@ -155,6 +171,7 @@ bool PulseChiSqSNNLS::DoFit(const SampleVector &samples, const SampleMatrix &sam
   bool status = Minimize(samplecov,fullpulsecov);
   _ampvecmin = _ampvec;
   _bxsmin = _bxs;
+
   
   if (!status) return status;
   
@@ -171,6 +188,8 @@ bool PulseChiSqSNNLS::DoFit(const SampleVector &samples, const SampleMatrix &sam
     }
   }
   if (!foundintime) return status;
+  
+  
   
   const unsigned int ipulseintimemin = ipulseintime;
   
@@ -225,6 +244,7 @@ bool PulseChiSqSNNLS::DoFit(const SampleVector &samples, const SampleMatrix &sam
   }
   
   _chisq = chisq0;  
+  
   
   return status;
   

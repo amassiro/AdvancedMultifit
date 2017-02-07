@@ -114,6 +114,7 @@ void run(std::string inputFile, std::string outFile, int fixslewrate)
   float return_chi2 = -99;
   float best_pedestal = 0;
   float best_chi2 = 0;
+  float best_slew_fix = 0;
   
   
   std::vector<TH1F*> v_pulses;
@@ -160,6 +161,9 @@ void run(std::string inputFile, std::string outFile, int fixslewrate)
   newtree->Branch("complete_pedestal",          &complete_pedestal);
   newtree->Branch("best_pedestal",   &best_pedestal, "best_pedestal/F");
   newtree->Branch("best_chi2",   &best_chi2, "best_chi2/F");
+  newtree->Branch("best_slew_fix",   &best_slew_fix, "best_slew_fix/F");
+  
+  
   
   for (unsigned int ibx=0; ibx<totalNumberOfBxActive; ++ibx) {
     samplesReco.push_back(0.);
@@ -187,8 +191,10 @@ void run(std::string inputFile, std::string outFile, int fixslewrate)
   
   if (fixslewrate) {
     badSamples[iSampleMax-1] = 1;
+//     std::cout << " badSamples = " << badSamples << std::endl;
   }
   
+//   std::cout << " done " << std::endl;
   
   
       
@@ -202,7 +208,10 @@ void run(std::string inputFile, std::string outFile, int fixslewrate)
   
   
   for(int ievt=0; ievt<nentries; ++ievt){
+//     std::cout << " ievt = " << ievt << " :: " << nentries << std::endl;
+    
     tree->GetEntry(ievt);
+    
     for(int i=0; i<NSAMPLES; i++){
       amplitudes[i] = samples->at(i);
     }
@@ -214,7 +223,8 @@ void run(std::string inputFile, std::string outFile, int fixslewrate)
 //     bool status = pulsefunc.DoFit (amplitudes,noisecor,pedrms,activeBX,fullpulse,fullpulsecov);
     bool status = pulsefunc.DoFit (amplitudes,noisecov,activeBX,fullpulse,fullpulsecov,gainsPedestal,badSamples);
     
-    
+//     std::cout << " I am back ... (1) " << std::endl;
+        
     double chisq = pulsefunc.ChiSq();
     return_chi2 = chisq;
     
@@ -228,18 +238,35 @@ void run(std::string inputFile, std::string outFile, int fixslewrate)
     double aMax = status ? pulsefunc.X()[ipulseintime] : 0.;
     //  double aErr = status ? pulsefunc.Errors()[ipulseintime] : 0.;
    
+//     std::cout << " I am back ... (2) " << std::endl;
+//     std::cout << "    status = " << status << std::endl;
     
     
     for (unsigned int ipulse=0; ipulse<pulsefunc.BXs().rows() ; ++ipulse) {
       if (status) { 
 //         std::cout << "  (int(pulsefunc.BXs().coeff(ipulse))) = " <<  (int(pulsefunc.BXs().coeff(ipulse))) << " :: ipulse " << ipulse << " :: " << pulsefunc.BXs().rows() << " ----> " << pulsefunc.X()[ ipulse ] << std::endl;
-        if ((int(pulsefunc.BXs().coeff(ipulse))) + 5 < NSAMPLES) samplesReco[ (int(pulsefunc.BXs().coeff(ipulse))) + 5] = pulsefunc.X()[ ipulse ];
-        else best_pedestal = pulsefunc.X()[ ipulse ] ;
+        
+        if (abs(  (int(pulsefunc.BXs().coeff(ipulse))) + 5 ) < NSAMPLES) samplesReco[ (int(pulsefunc.BXs().coeff(ipulse))) + 5] = pulsefunc.X()[ ipulse ];
+        else {
+//           std::cout << " ipulse = " << ipulse << std::endl;
+          
+          if ( (int(pulsefunc.BXs().coeff(ipulse))) > 50 ) {
+            best_pedestal = pulsefunc.X()[ ipulse ] ;
+          }
+          else {
+            best_slew_fix = pulsefunc.X()[ ipulse ] ;
+          }
+//           else 
+//             it is the slew rate guy
+          
+        }
       }
       else {
         samplesReco[ipulse] = -1;
       }
     }
+    
+    
 //     std::cout << std::endl;
     
 //     std::cout << " best_pedestal = " << best_pedestal << std::endl;
