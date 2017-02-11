@@ -57,15 +57,29 @@ void plotPulse (std::string nameInputFile = "output.root", int nEvent = 10, floa
  tree->GetEntry(nEvent);
  std::cout << " NFREQ = " << NFREQ << std::endl;
  
+ int shift_my_test = 13*4;
+ 
  TCanvas* ccpulse_signal = new TCanvas ("ccpulse_signal","",800,600);
  TGraph *gr = new TGraph();
+ TGraph *gr_sampling = new TGraph();
  for(int i=0; i<nWF; i++){
-  gr->SetPoint(i, i, pulse_signal->at(i));
+  gr->SetPoint(i, i/4., pulse_signal->at(i));
+  
+  if (!((i+shift_my_test)%(4*25))) {
+    gr_sampling->SetPoint((i+shift_my_test)/(4*25), i/4., pulse_signal->at(i));
+  }
+  
  }
- gr->Draw("AL");
+ gr->Draw("AL"); 
  gr->SetLineColor(kMagenta);
  gr->SetLineWidth(2);
  gr->GetXaxis()->SetTitle("time [ns]");
+ 
+ gr_sampling->Draw("P");
+ gr_sampling->SetMarkerStyle(4);
+ gr_sampling->SetMarkerColor(kBlue);
+ 
+ ccpulse_signal->SetGrid();
  
  
  
