@@ -160,11 +160,14 @@ With pedestal drift
     
 Plots
         
+    //---- with the slew rate simulated
     
     r99t ../plot/plotPulse.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00_slew_0.90.root_fix_pedestal_slew_rate_fix.root\",0\)
     r99t ../plot/plotPulse.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00_slew_0.90.root_fix_pedestal_slew_rate_NOT_fix.root\",0\)
 
-
+    
+    //---- without the slew rate simulated
+    
     r99t ../plot/plotPulse.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00_slew_1.00.root_fix_pedestal_slew_rate_fix.root\",0\)
     r99t ../plot/plotPulse.C\(\"output/simple.multifit.mysample_200_-13.000_0.000_10_25.00_10.00_20.00_1.000_200.00_CRRC43_0.00_slew_1.00.root_fix_pedestal_slew_rate_NOT_fix.root\",0\)
 
