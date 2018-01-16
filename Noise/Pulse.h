@@ -13,9 +13,9 @@
 const int NBXTOTAL = 2800;
 
 // length of a waveform in 1ns steps
-const int WFLENGTH  = 500;
+// const int WFLENGTH  = 500;
 // length of a waveform in 1ns/4 steps
-// const int WFLENGTH  = 500*4;
+const int WFLENGTH  = 500*4;
 
 // number of samples per hit
 const int NSAMPLES   = 10;
@@ -25,8 +25,8 @@ const int NFREQ      = 25;
 
 // position of a 1st sample inside waveform
 // const int IDSTART    = 180+13;
-// const int IDSTART    = 150+13;
-const int IDSTART    = 180;
+const int IDSTART    = 150+13;
+// const int IDSTART    = 180;
 // 
 
 // CRRC shaping time in ns. It is used to calculate noise

@@ -34,6 +34,12 @@ SampleGainVector badSamples = SampleGainVector::Zero();
 
 void init(int runPedestal, float addPedestalUncertainty, float reduceNoise) {
   
+  
+  //---- initialize the pulse
+  pSh.Init();
+  
+  
+  
   // intime sample is [2]
   double pulseShapeTemplate[NSAMPLES+2];
   for(int i=0; i<(NSAMPLES+2); i++){
@@ -41,7 +47,7 @@ void init(int runPedestal, float addPedestalUncertainty, float reduceNoise) {
     double x = double( IDSTART + NFREQ * (i + 3) + NFREQ - 500 / 2); //----> 500 ns is fixed!  
     
     pulseShapeTemplate[i] = pSh.fShape(x);
-    std::cout << " >>  pulseShapeTemplate[" << i << "] " <<  pulseShapeTemplate[i] << " at x = " << x << std::endl;
+    std::cout << " >>  pulseShapeTemplate[" << i << "] = " <<  pulseShapeTemplate[i] << " at x = " << x << std::endl;
     
   }
   //  for(int i=0; i<(NSAMPLES+2); i++) pulseShapeTemplate[i] /= pulseShapeTemplate[2];
@@ -244,7 +250,7 @@ void run(std::string inputFile, std::string outFile, int fixslewrate)
     
     for (unsigned int ipulse=0; ipulse<pulsefunc.BXs().rows() ; ++ipulse) {
       if (status) { 
-        std::cout << "  (int(pulsefunc.BXs().coeff(ipulse))) = " <<  (int(pulsefunc.BXs().coeff(ipulse))) << " :: ipulse " << ipulse << " :: " << pulsefunc.BXs().rows() << " ----> " << pulsefunc.X()[ ipulse ] << std::endl;
+//         std::cout << "  (int(pulsefunc.BXs().coeff(ipulse))) = " <<  (int(pulsefunc.BXs().coeff(ipulse))) << " :: ipulse " << ipulse << " :: " << pulsefunc.BXs().rows() << " ----> " << pulsefunc.X()[ ipulse ] << std::endl;
         
         if (abs(  (int(pulsefunc.BXs().coeff(ipulse))) + 5 ) < NSAMPLES) samplesReco[ (int(pulsefunc.BXs().coeff(ipulse))) + 5] = pulsefunc.X()[ ipulse ];
         else {

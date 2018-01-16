@@ -19,6 +19,31 @@
 #include <iostream>
 #include <TRandom.h>
 
+
+
+float RMS(std::vector<double> samples) {
+  
+  float mean = 0;
+  float rms = 0;
+  for (int i=0; i<samples.size(); i++) {
+    mean += samples.at(i) / samples.size();
+//     std::cout << " samples(" << i << ") = " << samples.at(i) << std::endl;
+  }
+  
+//   std::cout << " mean = " << mean << std::endl;
+  
+  for (int i=0; i<samples.size(); i++) {
+    rms += ( ( (samples.at(i) - mean)*(samples.at(i) - mean) ) / (samples.size()-1) ) ;
+  }
+  
+  rms = sqrt (rms);
+  
+  return rms;
+  
+}
+
+
+
 int main(int argc, char** argv) {
   
   TRandom rnd;
@@ -103,7 +128,7 @@ int main(int argc, char** argv) {
   
   //---- fix the correct BX
 //   int IDSTART = 7*25;
-  int IDSTART = 6*25;
+  int IDSTART = 6*25;  // = 150
   int WFLENGTH = 500*4; // step 1/4 ns in waveform
   if (( IDSTART + NSAMPLES * NFREQ ) > 500 ) {
     WFLENGTH = (IDSTART + NSAMPLES * NFREQ)*4 + 100;
@@ -201,6 +226,8 @@ int main(int argc, char** argv) {
   std::vector<double> pileup_signal;
   double signalTruth = signalAmplitude;
   
+  float rmspulse;
+  
   // Making the tree
   TTree *treeOut = new TTree("Samples", "");
   treeOut->Branch("pulse_shift",    &real_pulse_shift,"pulse_shift/F");
@@ -227,6 +254,7 @@ int main(int argc, char** argv) {
   treeOut->Branch("input_pedestal",            &pedestal,             "input_pedestal/F");
   treeOut->Branch("distortion_sample_4",            &distortion_sample_4,             "distortion_sample_4/F");
   
+  treeOut->Branch("rmspulse",     &rmspulse,      "rmspulse/F");
   
   
   
@@ -331,6 +359,10 @@ int main(int argc, char** argv) {
     
     // Adding energyPU to the true amplitude
     amplitudeTruth = signalTruth + energyPU.at(BX0);
+    
+    // calculate RMS of the pulse
+    rmspulse = RMS(samples);
+//     std::cout << " rmspulse = " << rmspulse << std::endl;
     
     treeOut->Fill();
   }
