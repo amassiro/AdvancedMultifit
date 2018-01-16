@@ -72,6 +72,18 @@ void plot (std::string nameInputFile = "output.root",  float valueToWrite = 0){
   }
  }
  
+
+ 
+ TCanvas* ccGoodBx5 = new TCanvas ("ccGoodBx5","BX 5",800,600);
+ for (int i=0; i<totBX; i++) {
+   if ( i == 5)  {
+     histo[i]->Draw();
+     histo[i]->GetXaxis()->SetTitle("Energy [GeV]");
+   }
+ }
+ 
+ 
+ 
  
  std::ofstream myfile;
  myfile.open ("results.txt", std::ofstream::out | std::ofstream::app);
