@@ -246,6 +246,11 @@ void plotPulse (std::string nameInputFile = "output.root", int nEvent = 10, floa
  grPulse_noise->Draw("PL");
  
  
+ leg->AddEntry(grPulse_noise,"noise input","p");
+ 
+ 
+ 
+ 
  
  leg->Draw();
  
