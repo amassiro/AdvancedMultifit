@@ -90,6 +90,7 @@ public:
   double corr(int i) const { return _mC[i]; };
   double cholesky(int i, int j) const;
   
+  void PrintNoise();
   void Init();
   void NoiseInit();
   void InitCholesky();
@@ -252,6 +253,8 @@ void Pulse::InitCorr() {
       std::cout << "  ----> y(" << i << "::" << _NSAMPLES << " ) = " << y << " _TAU = " << _TAU << " _NFREQ = " << _NFREQ << std::endl;
     _mC.push_back( 1. - y * y);
 //     _mC.push_back( 1. );
+//     _mC.push_back( 0.999 );
+//        _mC.push_back( 0.0 );
   }
 }
 
@@ -292,6 +295,20 @@ void Pulse::InitCholesky() {
     for( int col=row+1; col<_NSAMPLES; col++ ) _mL.at(row).at(col) = 0;
   }
 }
+
+
+
+
+
+void Pulse::PrintNoise () {
+  
+  for (int i=0; i < _mL.size(); i++ ) {
+    for (int j=0; j < _mL.at(i).size(); j++ ) {
+      std::cout << std::setw(5) << std::setprecision(3) << _mL.at(i).at(j) << "   " ;
+    }
+    std::cout << std::endl;
+  } 
+}  
 
 
 void Pulse::NoiseInit() {

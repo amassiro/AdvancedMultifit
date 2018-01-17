@@ -15,14 +15,20 @@ Generation:
     g++ -o CreateData.exe  CreateData.cc -std=c++11 `root-config --cflags --glibs`
 
     
-    ./CreateData.exe    temporal_shift      number_of_events       NSAMPLES       NFREQ     nPU    signalAmplitude    sigmaNoise     puFactor  wf_name_string    pu_shift     noise-correlation    pedestal  
+    ./CreateData.exe    temporal_shift      number_of_events       NSAMPLES       NFREQ     nPU    signalAmplitude    sigmaNoise     puFactor  wf_name_string    pu_shift     noise-correlation    pedestal  distortion_sample_4
     
     ./CreateData.exe  -13        100    10     25     0         10        1         0         CRRC43     0    0.5        0.0      1.0
     
+    ./CreateData.exe  -13        100    10     25     0          0        1         0         CRRC43     0    0.0        0.0      1.0
     ./CreateData.exe  -13        100    10     25     0          0        1         0         CRRC43     0    0.5        0.0      1.0
     ./CreateData.exe  -13        1000   10     25     0          0        1         0         CRRC43     0    0.5        0.0      1.0
     
+    ./CreateData.exe  -13        1000   10     25     0          0       10         0         CRRC43     0    0.5        0.0      1.0
+    ./CreateData.exe  -13        1000   10     25     0          1       10         0         CRRC43     0    0.5        0.0      1.0
+    ./CreateData.exe  -13        1000   10     25     0          1        1         0         CRRC43     0    0.5        0.0      1.0
+
     
+    r99t ../plot/plotPulseInput.C\(\"inputExternal/mysample_100_-13.000_0.000_10_25.00_0.00_0.00_1.000_0.00_CRRC43_NoiseUncorrelated.root\",0\)
     r99t ../plot/plotPulseInput.C\(\"inputExternal/mysample_100_-13.000_0.000_10_25.00_0.00_0.00_1.000_0.00_CRRC43_0.00_slew_1.00.root\",0\)
     r99t ../plot/plotPulseInput.C\(\"inputExternal/mysample_100_-13.000_0.000_10_25.00_10.00_0.00_1.000_0.00_CRRC43_0.00_slew_1.00.root\",0\)
 

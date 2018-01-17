@@ -123,7 +123,8 @@ int main(int argc, char** argv) {
   // May add more flexibility in the future.
   float correlation_flag = 0.5;
   if (argc>=12) correlation_flag = atof(argv[11]);
-
+  std::cout << " correlation_flag = " << correlation_flag << std::endl;
+  
   if (argc>=13) pedestal = atof(argv[12]);
   
   //---- fix the correct BX
@@ -182,6 +183,11 @@ int main(int argc, char** argv) {
   } else if (correlation_flag == 1.0) {
     pSh.SetNoiseCorrelationMax();
   }
+  
+  
+  
+  pSh.PrintNoise();
+  
   
   
   TFile *file = new TFile(wf_file_name.c_str());
