@@ -107,6 +107,18 @@ void plot (std::string nameInputFile = "output.root",  float valueToWrite = 0){
  
  
  
+ TCanvas* ccRMScumulative = new TCanvas ("ccRMScumulative","RMS BX 5 cumulative",800,600);
+ TH1F* hbx5_cumulative = (TH1F*) hbx5->GetCumulative();
+
+ hbx5_cumulative -> SetLineColor(kRed);
+ hbx5_cumulative -> SetLineWidth(2);
+ 
+ hbx5_cumulative-> Draw ("");
+ hbx5_cumulative->GetXaxis()->SetTitle("Energy [a.u.]");
+ 
+ 
+ 
+ 
  std::ofstream myfile;
  myfile.open ("results.txt", std::ofstream::out | std::ofstream::app);
  for (int i=0; i<totBX; i++) {

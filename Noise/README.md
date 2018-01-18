@@ -67,6 +67,16 @@ Fit:
                                1 \
                                0 
 
+                               
+    ./simple.multifit.exe   inputExternal/mysample_100_-13.000_0.000_10_25.00_0.00_0.00_1.000_0.00_CRRC43_NoiseUncorrelated.root \
+                            output/simple.multifit.mysample_100_-13.000_0.000_10_25.00_0.00_0.00_1.000_0.00_CRRC43_NoiseUncorrelated_fix_pedestal.root   \
+                               0 \
+                               0 \
+                               1 \
+                               0 
+                               
+                               
+                               
 
                                
     
@@ -82,6 +92,8 @@ Plots
     
     r99t plot.C\(\"output/simple.multifit.mysample_100_-13.000_0.000_10_25.00_10.00_0.00_1.000_0.00_CRRC43_0.00_slew_1.00_fix_pedestal.root\"\)
     
+    r99t plot.C\(\"output/simple.multifit.mysample_100_-13.000_0.000_10_25.00_0.00_0.00_1.000_0.00_CRRC43_NoiseUncorrelated_fix_pedestal.root\"\)
+    r99t ../plot/plotPulse.C\(\"output/simple.multifit.mysample_100_-13.000_0.000_10_25.00_0.00_0.00_1.000_0.00_CRRC43_NoiseUncorrelated_fix_pedestal.root\",0\)
     
     
     
